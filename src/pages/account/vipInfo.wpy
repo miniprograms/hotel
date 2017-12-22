@@ -1,0 +1,186 @@
+<template>
+  <view class="container">
+    <view class="getVip">
+      <view class="vipImage">
+        <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" indicator-color="{{ indicatorColor }}" indicator-active-color="{{ indicatorActiveColor }}" bindchange="bindchange">
+          <block>
+            <swiper-item>
+              <view class="bigPic">
+                <view class="vipCard-Name">
+                  <view class="vipCard-pname">凯夫特酒店</view>黄金会员
+                </view>
+                <view class="vipCard-num">No: 0159 6013 1327</view>
+              </view>
+            </swiper-item>
+            <swiper-item>
+              <view class="bigPic" style="background: #ec4906;">
+                <view class="vipCard-Name"><view class="vipCard-pname">凯夫特酒店</view>白金会员</view>
+                <view class="vipCard-num">No: 0159 6013 1327</view>
+              </view>
+            </swiper-item>
+            <swiper-item>
+              <view class="bigPic" style="background: #5c44ff;">
+                <view class="vipCard-Name"><view class="vipCard-pname">凯夫特酒店</view>钻石会员</view>
+                <view class="vipCard-num">No: 0159 6013 1327</view>
+              </view>
+            </swiper-item>
+          </block>
+        </swiper>
+        
+      </view>
+      
+      <view class="policyItem" hidden="{{ vipLevel !== 0 }}">
+        <view class="zan-cell">
+          <view class="zan-cell__bd">折扣政策</view>
+          <view class="zan-cell__ft">房费95折</view>
+        </view>
+        <view class="zan-cell">
+          <view class="zan-cell__bd">积分政策</view>
+          <view class="zan-cell__ft">消费1元返1积分</view>
+        </view>
+        <view class="zan-cell">
+          <view class="zan-cell__bd">生日政策</view>
+          <view class="zan-cell__ft">生日当天50元优惠券</view>
+        </view>
+        <view class="zan-cell">
+          <view class="zan-cell__bd">入住特权</view>
+          <view class="zan-cell__ft">免押金，退房0等待</view>
+        </view>
+      </view>
+      
+      <view class="policyItem" hidden="{{ vipLevel !== 1 }}">
+        <view class="zan-cell">
+          <view class="zan-cell__bd">折扣政策</view>
+          <view class="zan-cell__ft">房费8折</view>
+        </view>
+        <view class="zan-cell">
+          <view class="zan-cell__bd">积分政策</view>
+          <view class="zan-cell__ft">消费1元返2积分</view>
+        </view>
+        <view class="zan-cell">
+          <view class="zan-cell__bd">生日政策</view>
+          <view class="zan-cell__ft">生日当天100元优惠券</view>
+        </view>
+        <view class="zan-cell">
+          <view class="zan-cell__bd">入住特权</view>
+          <view class="zan-cell__ft">免押金，退房0等待，延迟退房</view>
+        </view>
+      </view>
+
+      <view class="policyItem" hidden="{{ vipLevel !== 2 }}">
+        <view class="zan-cell">
+          <view class="zan-cell__bd">折扣政策</view>
+          <view class="zan-cell__ft">房费6折</view>
+        </view>
+        <view class="zan-cell">
+          <view class="zan-cell__bd">积分政策</view>
+          <view class="zan-cell__ft">消费1元返10积分</view>
+        </view>
+        <view class="zan-cell">
+          <view class="zan-cell__bd">生日政策</view>
+          <view class="zan-cell__ft">生日当天500元优惠券</view>
+        </view>
+        <view class="zan-cell">
+          <view class="zan-cell__bd">入住特权</view>
+          <view class="zan-cell__ft">免押金，退房0等待，延迟退房，免登录</view>
+        </view>
+      </view>
+
+      <view class="policyRules">
+        <view class="zan-cell policyRules-title">
+          <view class="zan-cell__bd">升级条件</view>
+        </view>
+        <view class="zan-cell policyRules-item">
+          <view class="zan-cell__bd">升级到钻石卡</view>
+          <view class="zan-cell__ft">消费满3000元</view>
+        </view>
+        <view class="zan-cell policyRules-item">
+          <view class="zan-cell__bd">升级到白金卡</view>
+          <view class="zan-cell__ft">消费满2000元</view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class vipinfo extends wepy.page {
+    config = {
+      navigationBarTitleText: '会员特权'
+    }
+    data = {
+      indicatorDots: true,
+      autoplay: false,
+      interval: 5000,
+      indicatorColor: 'rgba(255,255,255,.6)',
+      indicatorActiveColor: '#fff',
+      vipLevel: 0
+    }
+    events = {
+    }
+    bindchange(e) {
+      console.log(e.detail.current)
+      this.vipLevel = e.detail.current;
+    }
+  }
+</script>
+
+<style>
+  .vipImage{
+    padding: 40rpx 0;
+    margin-bottom: 20rpx;
+    background: #fff;
+  }
+  .bigPic{
+    position: relative;
+    width: 80%;
+    height: 300rpx;
+    padding: 20rpx;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background: #6146ff;
+    border-radius: 10rpx;
+  }
+  .vipCard-Name{
+    font-size: 24rpx;
+    color: #cfb3fc;
+  }
+  .vipCard-pname{
+    font-size: 28rpx;
+    color: #fff;
+  }
+  .vipCard-num{
+    margin-top: 120rpx;
+    color: #fff;
+  }
+  .policyItem{
+    margin-bottom: 20rpx;
+    background: #fff;
+  }
+  .policyItem .zan-cell{
+    font-size: 26rpx;
+  }
+  .policyRules{
+    background: #fff;
+  }
+  .policyRules-title{
+    margin-bottom: 20rpx;
+  }
+  .policyRules-item{
+    padding: 10rpx 15px;
+  }
+  .policyRules-item .zan-cell__bd{
+    font-size: 28rpx;
+    color: #b46b27;
+  }
+  .policyRules-item .zan-cell__ft{
+    font-size: 24rpx;
+    color: #999;
+  }
+  .policyRules-item::after{
+    display: none;
+  }
+</style>

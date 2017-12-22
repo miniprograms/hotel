@@ -1,0 +1,144 @@
+<template>
+  <view class="goodsList">
+    <block wx:for="{{ goods }}" wx:for-item="goodsItem" wx:key="{{ goodsItem.id }}">
+
+      <view class="goods-item">
+        <view class="goods-item-info" @tap.stop="clickDetail({{ goodsItem.id }})">
+          <view class="goods-item-pic">
+            <image src="{{ goodsItem.imgUrl }}" mode='widthFix'></image>
+          </view>
+          <view class="pos-info">
+            <view class="pos-info-name">{{ goodsItem.name }}</view>
+            <view class="goods-serviceItem">
+              <text class="goods-serviceItem-tag" wx:for="{{ goodsItem.roomService }}" wx:for-item="roomService" wx:key="{{ roomService }}">{{ roomService }}</text>
+            </view>
+            <view class="pos-info-button">查看详情</view>
+          </view>
+        </view>
+
+        <view class="goods-item-rooms">
+          <view class="goods-room" wx:for="{{ goodsItem.rooms }}" wx:for-item="roomItem" wx:key="{{ roomItem.id }}">
+            <view class="room-name">{{ roomItem.name }}</view>
+            <view class="room-price">¥<text class="room-price-num">{{ roomItem.price }}</text></view>
+              <view class="room-button {{ goodsItem.status === 0 ? 'disable' : 'enable' }}" @tap="goOrder({{ goodsItem.status }})">{{ goodsItem.status === 0 ? '客满' : '预定' }}</view>  
+          </view>
+        </view>
+      </view>
+
+    </block>    
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import { apiGoodsDetail } from '../api/detail.js'
+
+  export default class goodsList extends wepy.component {
+    data = {}
+
+    props = {
+      goods: {}
+    }
+    events = {
+    }
+    methods = {
+      clickDetail: function(id) {
+        this.$invoke('../goodsDetail', 'goodsDetailToggle', apiGoodsDetail[id])
+        this.$emit('scrollHidden', true)
+      },
+      goOrder: function(status) {
+        if (status === 0) {
+          return false
+        }
+        wx.navigateTo({
+          url: 'order'
+        })
+      }
+    }
+    onLoad() {
+    }
+  }
+</script>
+
+<style lang="css">
+  .goodsList{
+    padding: 20rpx 20rpx 0;
+  }
+  .goods-item{
+    margin-bottom: 30rpx;
+  }
+  .goods-item-info{
+    position: relative;
+    height: 280rpx;
+    overflow: hidden;
+  }
+  .goods-item-pic image{
+    width: 100%;
+  }
+  .pos-info{
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    align-items: center;
+    flex-direction: column; 
+    justify-content: center;
+    text-align: center;
+    background: rgba(0, 0, 0, .4)
+  }
+  .pos-info-name{
+    margin-bottom: 20rpx;
+    font-size: 30rpx;
+    color: #fff;
+    font-weight: bold;
+  }
+  .goods-serviceItem{
+    margin-bottom: 32rpx;
+    font-size: 24rpx;
+    color: #dbdbdb;
+  }
+  .goods-serviceItem .goods-serviceItem-tag:last-child:after{
+    display: none;
+  }
+  .goods-serviceItem-tag::after{
+    content: "|";
+    display: inline-block;
+    padding: 0 12rpx;
+  }
+  .pos-info-button{
+    padding: 0 32rpx;
+    line-height: 48rpx;
+    font-size: 24rpx;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 20% / 80%;
+  }
+  .goods-item-rooms{
+    box-shadow: 0 3px 5px #ccc;
+  }
+  .goods-room{
+    display: flex;
+    align-items: center;
+    padding: 26rpx 24rpx;
+    border-bottom: 1px solid #e5e5e5;
+    box-sizing: border-box;
+    color: #353535;
+  }
+  .room-name{
+    flex: 3;
+  }
+  .room-price{
+    flex: 1;
+    font-weight: bold;
+    color: #f30;
+  }
+  .room-button{
+    padding: 0 26rpx;
+    line-height: 48rpx;
+    font-size: 24rpx;
+    color: #fff;
+    background: #f30;
+  }
+</style>

@@ -1,0 +1,181 @@
+<style lang="css">
+  .scrollHidden{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  .userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .userinfo-avatar {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+  }
+
+  .userinfo-nickname {
+    color: #aaa;
+  }
+</style>
+<template lang="wxml">
+  <view class="container {{ scrollHidden ? 'scrollHidden' : '' }}">
+    <banner :banner.sync="banner"></banner>
+    <sTag :sTag.sync="sTag"></sTag>
+    <coupon :coupon.sync="vipCoupon"></coupon>
+    <chooseDate :date.sync="chooseDate"></chooseDate>
+    <goodsList :goods.sync="goods"></goodsList>
+    <goodsDetail :goodsDetailData.sync="goodsDetail"></goodsDetail>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { getCurrentDate } from '../utils/util.js'
+  import banner from '../components/banner'
+  import sTag from '../components/sTag'
+  import coupon from '../components/coupon'
+  import chooseDate from '../components/chooseDate'
+  import goodsList from '../components/goodsList'
+  import goodsDetail from '../components/goodsDetail'
+
+  export default class Index extends wepy.page {
+    config = {
+    }
+    components = {
+      banner: banner,
+      chooseDate: chooseDate,
+      coupon: coupon,
+      sTag: sTag,
+      goodsList: goodsList,
+      goodsDetail: goodsDetail
+    }
+
+    data = {
+      scrollHidden: false,
+      banner: {
+        banners: [
+          {
+            url: '',
+            imgUrl: 'https://dimg13.c-ctrip.com/images/200v080000003iiah2D4C_R_550_412.jpg'
+          },
+          {
+            url: '',
+            imgUrl: 'https://dimg11.c-ctrip.com/images/200u0g0000007rereC73E_R_550_412.jpg'
+          },
+          {
+            url: '',
+            imgUrl: 'https://dimg11.c-ctrip.com/images/20080h00000090260E98F_R_550_412.jpg'
+          }
+        ],
+        indicatorDots: true,
+        indicatorColor: 'rgba(255,255,255,.8)',
+        indicatorActiveColor: 'rgba(255,255,255,.3)',
+        autoplay: true,
+        circular: true
+      },
+      sTag: [
+        {
+          icon: '',
+          name: '全网最低价'
+        },
+        {
+          icon: '',
+          name: '官方直订放心'
+        },
+        {
+          icon: '',
+          name: '预定100%有房'
+        }
+      ],
+      vipCoupon: {
+        cid: 1,
+        imgUrl: '../static/blue.png',
+        name: '凯芙特会员卡',
+        desc: '享订房88折等五大特权',
+        status: true
+      },
+      goods: [
+        {
+          id: 0,
+          status: 1,
+          imgUrl: 'https://dimg12.c-ctrip.com/images/200n0h000000903n2A137_R_550_412.jpg',
+          name: '主题大床房',
+          roomService: ['大床1.5米', '有窗', '6层'],
+          rooms: [
+            {
+              id: 'goods1001',
+              name: '非会员价',
+              price: '269'
+            },
+            {
+              id: 'goods2001',
+              name: '白金会员价',
+              price: '249'
+            }
+          ]
+        },
+        {
+          id: 1,
+          status: 1,
+          imgUrl: 'https://dimg12.c-ctrip.com/images/200q0g0000007rdve154B_R_550_412.jpg',
+          name: '3D电影房',
+          roomService: ['大床1.5米', '有窗', '6层'],
+          rooms: [
+            {
+              id: 'goods1001',
+              name: '非会员价',
+              price: '269'
+            },
+            {
+              id: 'goods2001',
+              name: '白金会员价',
+              price: '249'
+            }
+          ]
+        },
+        {
+          id: 2,
+          status: 0,
+          imgUrl: 'https://dimg12.c-ctrip.com/images/20080h0000009026n4EB8_R_550_412.jpg',
+          name: '总统套房',
+          roomService: ['大床3.5米', '有窗', '2层'],
+          rooms: [
+            {
+              id: 'goods1001',
+              name: '非会员价',
+              price: '289'
+            },
+            {
+              id: 'goods2001',
+              name: '白金会员价',
+              price: '219'
+            }
+          ]
+        }
+      ],
+      chooseDate: {
+        inDate: getCurrentDate(),
+        outDate: getCurrentDate(2),
+        numDate: 2
+      }
+    }
+
+    methods = {
+    }
+    events = {
+      scrollHidden: function(state) {
+        console.log(Boolean(state))
+        this.scrollHidden = Boolean(state)
+      }
+    }
+    onLoad() {
+    }
+  }
+</script>

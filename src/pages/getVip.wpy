@@ -1,0 +1,126 @@
+<template>
+  <view class="container">
+    <view class="getVip">
+      <view class="vipImage">
+        <view class="bigPic">
+          <view class="vipCard-Name">
+            <view class="vipCard-pname">凯夫特酒店</view>黄金会员
+          </view>
+          <view class="vipCard-num">No: 0159 6013 1327</view>
+        </view>
+      </view>
+      <view class="getVipBtn">
+        <text>立即领取,享房费88折</text>
+      </view>
+
+      <view class="getVipInfo">
+        <view class="getVipTab">
+          <view class="vipType selected">白金会员</view>
+          <view class="vipType">黄金会员</view>
+          <view class="vipType">白银会员</view>
+        </view>
+        <view class="getVipPanel">
+          <view class="vipPanel">
+            <view class="textBlock">
+              1  光速入住特权：免登记，到店报手机号码即可入住
+            </view>
+            <view class="textBlock">
+              2  房费88折特权：白金会员专享88折优惠，在88折优     惠基础上可参与酒店不定时促销优惠。
+            </view>
+            <view class="textBlock">
+              3  延迟退房特权：可免费延迟退房至16：00
+            </view>
+            <view class="textBlock">
+              4  免押金特权：预定酒店免押金
+            </view>
+            <view class="condition">储值2000元即可成为白金会员</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class getVip extends wepy.page {
+
+  }
+</script>
+
+<style>
+  .vipImage{
+    margin: 40rpx 0;
+  }
+  .bigPic{
+    position: relative;
+    width: 80%;
+    height: 300rpx;
+    padding: 20rpx;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background: #6146ff;
+    border-radius: 10rpx;
+  }
+  .vipCard-Name{
+    font-size: 24rpx;
+    color: #cfb3fc;
+  }
+  .vipCard-pname{
+    font-size: 28rpx;
+    color: #fff;
+  }
+  .vipCard-num{
+    margin-top: 120rpx;
+    color: #fff;
+  }
+  .getVipBtn{
+    margin-bottom: 60rpx;
+    text-align: center;
+    color: #40a980;
+  }
+  .getVipBtn text{
+    display: inline-block;
+    padding: 16rpx 20rpx;
+    line-height: 40rpx;
+    border: 1px solid #40a980;
+    border-radius: 3px;
+    font-size: 24rpx;
+  }
+  .getVipInfo{
+    background: #fff;
+    padding-top: 60rpx;
+    border-top: 1px solid #e5e5e5;
+  }
+  .getVipTab{
+    display: flex;
+    margin-bottom: 40rpx;
+    justify-content: center;
+  }
+  .vipType{
+    margin: 0 20rpx;
+    padding: 0 20rpx;
+    border: 1px solid #5c525c;
+    border-radius: 2px;
+    font-size: 24rpx;
+    line-height: 60rpx;
+  }
+  .getVipTab .selected{
+    border-color: #f30;
+    color: #f30;
+  }
+  .vipPanel{
+    padding: 0 32rpx;
+    color: #999;
+  }
+  .textBlock{
+    margin-bottom: 20rpx; 
+    font-size: 24rpx;
+    line-height: 36rpx;
+  }
+  .condition{
+    font-size: 24rpx;
+    color: #40a980;
+  }
+</style>

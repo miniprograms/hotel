@@ -1,0 +1,35 @@
+<template>
+  <view class="s-tag">
+    <view class="s-tag-item iconFont" wx:for="{{ sTag }}" wx:for-item="itemSTag" wx:key="{{ itemSTag.name }}">{{ itemSTag.name }}</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class sTag extends wepy.component {
+    props = {
+      sTag: {}
+    }
+  }
+</script>
+<style type="css">
+  .s-tag{
+    display: flex;
+    width: 100%;
+    padding: 0 20rpx;
+    margin-bottom: 20rpx;
+    box-sizing: border-box;
+    line-height: 80rpx;
+    background: #fff;
+  }
+  .s-tag-item{
+    flex: 1;
+    box-sizing: border-box;
+    color: #666;
+  }
+  .s-tag-item::before{
+    margin-right: 10rpx;
+    content: "\e8bd";
+    color: #f30;
+  }
+</style>

@@ -1,0 +1,58 @@
+<template>
+  <view class="banner">
+    <view class="banner-title">
+      <text class="b-t-text">{{ banner.title }}</text>
+    </view>
+    <swiper indicator-dots="{{ banner.indicatorDots }}" 
+    indicator-color="{{ banner.indicatorColor }}" 
+    indicator-active-color="{{ banner.indicatorActiveColor }}" 
+    autoplay="{{ banner.autoplay }}" circular="{{ banner.circular }}">
+      <block wx:for="{{ banner.banners }}" wx:key="item">
+        <swiper-item>
+          <image src="{{ item.imgUrl }}" class="swiper-image"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class banner extends wepy.component {
+    data = {
+    }
+
+    props = {
+      banner: {}
+    }
+
+    events = {
+    }
+
+    methods = {
+    }
+
+    onLoad () {
+      console.log('banner components data', this.banner)
+    }
+  }
+</script>
+
+<style lang="css">
+  .banner{
+    position: relative;
+    width: 100%;
+  }
+  .swiper-image{
+    width: 100%;
+    height: 100%;
+  }
+  .banner-title{
+    position: absolute;
+    bottom: 40rpx;
+    left: 20rpx;
+    z-index: 10;
+    font-size: 28rpx;
+    color: #fff;
+  }
+</style>

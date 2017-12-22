@@ -1,0 +1,242 @@
+<template>
+  <view class="container">
+    <view class="assistant">
+      <!-- ass-head 有订单已经入住 -->
+      <view class="ass-head" wx:if="{{ orderStatus }}">
+        <view class="ass-head-t">
+          <view class="ass-name">安泰凯芙特酒店(主题大床房)</view>
+          <view class="ass-roomNum">{{ orderCheckStatus ? '房间号2248' : '暂未入住' }}</view>
+        </view>
+        <view class="ass-head-desc">
+          <view class="ass-in">
+            <view class="ass-d-t">入住</view>
+            <view class="ass-d-date">12 / 28</view>
+          </view>
+          <view class="ass-num">住1晚</view>
+          <view class="ass-out">
+            <view class="ass-d-t">离店</view>
+            <view class="ass-d-date">12 / 29</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- ass-head 无订单 -->
+      <view class="ass-noOrder" wx:if="{{ !orderStatus }}">
+        <view class="noOrder-name">暂无酒店预订</view>
+        <view class="noOrder-desc">预订完成后自动添加酒店行程卡片</view>
+        <navigator open-type="reLaunch" url="../index" class="noOrder-button">立即预订</navigator>
+      </view>
+
+      <view class="ass-content">
+        <view class="ass-c-tips">{{ orderStatus ? '尊敬的VIP，如有需要欢迎使用如下服务' : '预定房间入住期间，可享受如下快捷服务' }}</view>
+        <view clas="ass-c-service">
+          <view class="ass-c-s-item" @tap="wifi">
+            <text class="iconFont wifiIcon"></text>wifi连接
+          </view>
+          <view class="ass-c-s-item">
+            <text class="iconFont serviceIcon"></text>呼叫前台
+          </view>
+          <view class="ass-c-s-item">
+            <text class="iconFont invoiceIcon"></text>开发票
+          </view>
+          <view class="ass-c-s-item">
+            <text class="iconFont clockIcon"></text>叫醒服务
+          </view>
+        </view>
+        <!-- 有订单暂未入住提示 -->
+        <view class="noCheckinTips" wx:if="{{ !orderCheckStatus && orderStatus }}">
+          <view class="ass-c-tips">办理入住小贴士</view>
+          <view class="noCheckinTips-text">请于2017.12.29日12点以后前往酒店大堂办理入住</view>
+          <view class="noCheckinTips-text">到达酒店出示入住人毛英俊身份证件办理入住</view>
+          <view class="noCheckinTips-text">房间将为你整晚保留</view>
+          <view class="noCheckinTips-flush">完成入住手续后，下拉刷新此页面开启八项便捷服务</view>
+        </view>
+      </view>
+    </view>
+    <dialog></dialog>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import dialog from '../../components/dialog/index'
+
+  export default class assistant extends wepy.page {
+    config = {
+      navigationBarTitleText: '客房服务',
+      enablePullDownRefresh: true
+    }
+    components = {
+      dialog: dialog
+    }
+    data = {
+      orderStatus: false,
+      orderCheckStatus: false
+    }
+    methods = {
+      wifi: function() {
+        let dialog = this.$invoke('dialog', 'showZanDialog', {
+          title: 'wifi账号：antai8866',
+          content: 'wifi密码：29124215',
+          buttons:[{
+            text: '复制密码'
+          }]
+        })
+        
+      }
+    }
+    onPullDownRefresh(e) {
+      this.orderCheckStatus = true;
+    }
+    onLoad(options) {
+      console.log('助手 options:', options)
+      if (Number(options.order) === 1) {
+        this.orderStatus = true
+      }
+    }
+  }
+</script>
+
+<style>
+  .ass-head{
+    margin: 40rpx 40rpx 0;
+    padding: 10rpx 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: #ac49ff;
+  }
+  .ass-noOrder{
+    margin: 0 40rpx 0;
+    padding: 40rpx 0 20rpx;
+    text-align: center;
+    font-size: 24rpx;
+  }
+  .noOrder-name{
+    margin-bottom: 20rpx;
+    font-size: 28rpx;
+  }
+  .noOrder-desc{
+    margin-bottom: 40rpx;
+    color: #999;
+  }
+  .noOrder-button{
+    display: inline-block;
+    padding: 0 40rpx;
+    border-radius: 20% / 80%;
+    background: #f30;
+    color: #fff;
+    line-height: 48rpx;
+  }
+  .ass-head-t{
+    display: flex;
+    padding: 0 20rpx 6rpx;
+    border-bottom: 1px solid #8336ff;
+    line-height: 40rpx;
+    font-size: 24rpx;
+    color: #d7bfff;
+  }
+  .ass-name{
+    flex: 1;
+  }
+  .ass-head-desc{
+    display: flex;
+    padding: 40rpx 0;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  .ass-in,.ass-out{
+    flex: 2;
+    text-align: center;
+  }
+  .ass-d-t{
+    font-size: 24rpx;
+  }
+  .ass-d-date{
+    font-weight: bold;
+    font-size: 36rpx;
+  }
+  .ass-num{
+    flex: 1;
+    padding: 4rpx 0;
+    border-radius: 20% / 80%;
+    background: rgba(87,0,156,.2);
+    font-size: 24rpx;
+    color: #cb9afc;
+    text-align: center;
+  }
+  .ass-content{
+    position: relative;
+    min-height: 400rpx;
+    padding: 60rpx 0;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fff;
+  }
+  .ass-c-tips{
+    margin: 0 0 70rpx;
+    text-align: center;
+    font-size: 24rpx;
+    color: #ffa800;
+  }
+  .ass-c-service{
+    display: flex;
+  }
+  .ass-c-s-item{
+    display: inline-block;
+    width: 25%;
+    font-size: 24rpx;
+    text-align: center;
+  }
+  .wifiIcon::before,.serviceIcon::before,.invoiceIcon::before,.clockIcon::before{
+    display: block;
+    width: 60rpx;
+    height: 60rpx;
+    margin-bottom: 20rpx;
+    text-align: center;
+    line-height: 60rpx;
+    font-size: 28rpx;
+    border-radius: 50%;
+    color: #fff;
+  }
+  .wifiIcon::before{
+    content: "\e894";
+    background: #47a3f7;
+  }
+  .clockIcon::before{
+    content: "\e891";
+    background: #547dca;
+  }
+  .invoiceIcon::before{
+    content: "\e89a";
+    background: #f9353a;
+  }
+  .serviceIcon::before{
+    content: "\e8b2";
+    background: #fd9f31;
+  }
+  .noCheckinTips{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    padding: 60rpx 20rpx 20rpx;
+    background: rgba(255,255,255,.9);
+    font-size: 24rpx;
+  }
+  .noCheckinTips-text{
+    text-align: center;
+    line-height: 60rpx;
+    color: #000;
+  }
+  .noCheckinTips-flush{
+    position: absolute;
+    right: 0;
+    bottom: 10rpx;
+    left: 0;
+    color: #f5d3ab;
+    text-align: center;
+  }
+</style>

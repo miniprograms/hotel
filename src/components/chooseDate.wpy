@@ -1,0 +1,46 @@
+<template>
+  <view class="chooseDate" @tap="goSelectDate">
+    <view class="c-date-left">
+      <text class="in-date">{{ date.inDate }}</text> - <text class="out-date">{{ date.outDate }}</text>
+    </view>
+    <view class="c-date-num">住{{ date.numDate }}晚</view>
+    <view class="rightArrow iconFont"></view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class chooseDate extends wepy.component {
+    props = {
+      date: {}
+    }
+
+    data = {
+    }
+
+    methods = {
+      goSelectDate: function() {
+      }
+    }
+  }
+</script>
+
+<style lang="css">
+  .chooseDate{
+    display: flex;
+    padding: 16rpx 20rpx;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+  }
+  .c-date-left{
+    flex: 1;
+  }
+  .c-date-num{
+    color: #2120e0;
+  }
+  .rightArrow{
+    color: #999;
+    transform: rotate(-90deg);
+  }
+
+</style>

@@ -1,0 +1,271 @@
+<template lang="wxml">
+  <view class="container">
+    <view class="orderInfo">
+      <view class="order-head">
+        <view class="o-h-head-top">
+          <view class="o-h-h-t-left">
+            <view class="o-h-name">{{ name }}</view>
+            <view class="o-h-tags">
+              <text class="o-h-tags-item" wx:for="{{ tags }}" wx:for-item="tagsItem">{{ tagsItem }}</text>
+            </view>
+          </view>
+          <view class="o-h-h-t-button">修改</view>
+        </view>
+        <view class="o-h-dateInfo">
+          <view class="o-h-dateInfo-in">入住:{{ inDate }}</view>
+          <view class="o-h-dateInfo-num">住{{ numDate }}晚</view>
+          <view class="o-h-dateInfo-out">离店:{{ outDate }}</view>
+        </view>
+      </view>
+        <view class="orderForm">
+          <view class="zan-panel">
+            <view class="zan-cell zan-field">
+              <view class="zan-cell__hd zan-field__title">房间数</view>
+              <input type="text" class="zan-field__input zan-cell__bd" ></input>
+            </view>
+            <view class="zan-cell zan-field">
+              <view class="zan-cell__hd zan-field__title">入住人</view>
+              <input type="text" class="zan-field__input zan-cell__bd" placeholder="请输入真实姓名"></input>
+            </view>
+            <view class="zan-cell zan-field">
+              <view class="zan-cell__hd zan-field__title">手机号码</view>
+              <input type="text" class="zan-field__input zan-cell__bd" placeholder="158xxxxxxxx" value=""></input>
+            </view>
+            <navigator url="account/couponList" class="zan-cell">
+              <view class="zan-cell__hd zan-field__title">优惠卷</view>
+              <view class=" zan-cell__bd formTipsColor" >暂无优惠卷</view>
+              <view class="zan-cell__ft iconFont rightArrow formTipsColor"></view>
+            </navigator>
+            <navigtor class="zan-cell">
+              <view class="zan-cell__hd zan-field__title">发票</view>
+              <view class=" zan-cell__bd formTipsColor">编辑发票信息</view>
+              <view class="zan-cell__ft iconFont rightArrow formTipsColor"></view>
+            </navigtor>
+          </view>
+        </view>
+        <view class="orderGuide">
+          <view class="guide-rules orderGuide-block">
+            取消规则：本订单不可取消
+          </view>
+          <view class="guide-tips orderGuide-block">
+            温馨提示：请于入住日下午14：00后办理入住，如果提前到店，视酒店空房情况安排。
+          </view>
+        </view>
+    </view>
+
+    <view class="gd-pay">
+      <view class="gd-pay-info">
+        <text class="gd-price-num">¥269 </text>
+        <text class="pay-detail iconFont" @tap="payDetail">费用明细</text>
+      </view>
+      <view class="gd-pay-action" @tap="goPay">
+        提交订单
+      </view>
+    </view>
+
+    <view class="Mask" wx:if="{{ showState }}" @tap="close"></view>
+    <view class="price-detail" wx:if="{{ showState }}">
+      <view class="price-detail-name">费用明细</view>
+      <view class="price-detail-body">
+        <view class="price-detail-item">
+          <view class="flex-bd">
+            <view>房费</view>
+            12月28号入住
+          </view>
+          <view class="flex-ft">
+            <text class="gd-price-num">¥269*1</text>
+          </view>
+        </view>
+        <view class="price-detail-item">
+          <view class="flex-bd">
+            <view class="coupon-info-title">10元优惠券(满200可用)</view>
+          </view>
+          <view class="flex-ft">
+            <text class="gd-price-num">-¥269</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class order extends wepy.page {
+    data = {
+      showState: false,
+      name: '主题大床房',
+      inDate: '12月28号',
+      outDate: '12月20号',
+      numDate: '2',
+      tags: ['35m²', '大床1.8米', '双份早餐']
+    }
+    methods = {
+      payDetail: function() {
+        this.showState = !this.showState
+        this.$apply()
+      },
+
+      close: function() {
+        this.showState = !1
+        this.$apply()
+      }
+    }
+    goPay() {
+      wx.navigateTo({
+        url: 'pay'
+      })
+    }
+  }
+</script>
+
+<style lang="css">
+  .orderInfo{
+    /*background: #000;*/
+  }
+  .order-head{
+    /*display: flex;*/
+    margin-bottom: 28rpx;
+    background: #fff;
+    font-size: 24rpx;
+  }
+  .o-h-head-top{
+    display: flex;
+    align-items: center;
+    padding: 24rpx 20rpx 0;
+    border-bottom: 1px dashed #e5e5e5;
+  }
+  .o-h-h-t-left{
+    flex: 1;
+  }
+  .o-h-h-t-button{
+    padding: 0 30rpx;
+    line-height: 40rpx;
+    background: #e3e4ff;
+    border-radius: 30% / 70%;
+    color: #2120e0;
+  }
+  .o-h-name{
+    line-height: 48rpx;
+    color: #353535;
+  }
+  .o-h-tags{
+    display: flex;
+    padding-bottom: 8rpx;
+    color: #999;
+    line-height: 48rpx;
+  }
+  .o-h-tags-item::after{
+    content: "|";
+    padding: 0 6rpx;
+  }
+  .o-h-tags .o-h-tags-item:last-child::after{
+    display: none;
+  }
+  .o-h-dateInfo{
+    display: flex;
+    padding: 0 20rpx;
+    line-height: 64rpx;
+    color: #999;
+    text-align: center;
+  }
+  .o-h-dateInfo-in,.o-h-dateInfo-out{
+    flex: 2;
+    color: #f30;
+  }
+  .o-h-dateInfo-num{
+    flex: 1;
+    text-align: center;
+  }
+  .formTipsColor{
+    color: #ccc;
+  }
+  .orderGuide{
+    padding: 20rpx;
+    line-height: 40rpx;
+    font-size: 24rpx;
+    color: #bbb;
+  }
+  .orderGuide-block{
+    margin-bottom: 10rpx;
+  }
+  .pay-detail{
+    font-size: 24rpx;
+    color: #b8b8b8;
+  }
+  .pay-detail::after{
+    content: "\e893";
+  }
+  .price-detail{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 90rpx;
+    z-index: 100;
+    background: #fff;
+  }
+  .price-detail-name{
+    padding: 20rpx;
+    line-height: 40rpx;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .price-detail-item{
+    display: flex;
+    padding: 10rpx 20rpx;
+    align-items: center;
+    border-bottom: 1px dashed #e5e5e5;
+    font-size: 24rpx;
+    line-height: 48rpx;
+  }
+  .price-detail-item:last-child{
+    border: none;
+  }
+  .flex-bd{
+    flex: 1;
+  }
+
+  .gd-pay{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+  }
+  .gd-pay-info,.gd-pay-action{
+    flex: 1;
+    text-align: center;
+    line-height: 90rpx;
+  }
+  .gd-pay-info{
+    padding: 0 10rpx;
+    box-sizing: border-box;
+    text-align: left;
+    background: #fffbf2;
+  }
+  .gd-price-num{
+    font-weight: bold;
+    color: #f30;
+  }
+  .priceSaleTips{
+    font-size: 24rpx;
+    color: #b8b8b8;
+  }
+  .gd-pay-action{
+    background: #f30;
+    color: #fff;
+  }
+  .gd-pay .disable{
+    background: #dedede;
+  }
+  .Mask{
+     position: fixed;
+     top: 0;
+     right: 0;
+     bottom: 90rpx;
+     left: 0;
+     z-index: 99;
+     background: rgba(0, 0, 0, 0.6);
+   } 
+</style>

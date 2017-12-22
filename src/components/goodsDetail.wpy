@@ -1,0 +1,229 @@
+<template>
+  <view class="Mask" wx:if="{{ showState }}" @tap='close'></view>
+  <view class="goodsDetail" wx:if="{{ showState }}">
+    <view class="gd-close iconFont" @tap='close'></view>
+    <view class="gd-title">{{ goodsDetailData.name }}</view>
+    <scroll-view class="gd-scroll" scroll-y="true">
+      <view class="gd-pic">
+        <image src="{{ goodsDetailData.photos[0] }}" mode='scaleToFill'></image>
+      </view>
+      <view class="gd-block gd-baseInfo">
+        <view class="gd-baseInfo-item" wx:for="{{ goodsDetailData.baseInfo }}" wx:for-item="baseInfoItem" wx:key="baseInfoItem.name">
+          <text class="gd-baseInfo-item-name">{{ baseInfoItem.name }}</text>{{ baseInfoItem.value }}
+        </view>
+      </view>
+      <view class="gd-block gd-roomService">
+        <view class="gd-roomService-name">{{ goodsDetailData.roomService.name }}</view>
+        <view class="gd-roomService-item" wx:for="{{ goodsDetailData.roomService.value }}" wx:for-item="roomService">{{ roomService }}</view>
+      </view>
+      <view class="gd-coupon" wx:if="{{ goodsDetailData.roomCoupon }}">
+        <view class="gd-coupon-info">
+          <view class="gd-coupon-info-name">{{ goodsDetailData.roomCoupon.name }}</view>
+          <view class="gd-coupon-info-desc">{{ goodsDetailData.roomCoupon.desc }}</view>
+        </view>
+        <view class="gd-coupon-button" @tap="getCoupon">
+          {{ goodsDetailData.roomCoupon.status ? '领取' : '已领取' }}
+        </view>
+      </view>
+    </scroll-view>
+    
+    <view class="gd-pay">
+      <view class="gd-pay-info">
+        <text class="gd-price-num">¥{{ goodsDetailData.sellPrice }} </text><text class="priceSaleTips">会员最高省{{ goodsDetailData.priceSale }}元</text>
+      </view>
+      <view class="gd-pay-action {{ goodsDetailData.status == 0 ? 'disable' : 'enable' }}" @tap="goPay">
+        {{ goodsDetailData.status == 0 ? '暂不可定' : '立即预定' }}
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class goodsDetail extends wepy.component {
+    data = {
+      showState: false,
+      couponStatus: true,
+      goodsDetailData: {}
+    }
+    props = {
+    }
+    events = {
+    }
+    methods = {
+      close: function() {
+        this.$emit('scrollHidden', false)
+        this.showState = !1
+        this.$apply()
+      },
+      goPay: function() {
+        wx.navigateTo({
+          url: 'order'
+        })
+      },
+      getCoupon() {
+        this.goodsDetailData.roomCoupon.status = !this.goodsDetailData.roomCoupon.status
+      }
+    }
+    goodsDetailToggle(data) {
+      this.goodsDetailData = data
+      this.showState = !this.showState
+      this.$apply()
+    }
+    onLoad() {}
+  }
+</script>
+
+<style lang="css">
+   .Mask{
+     position: fixed;
+     top: 0;
+     right: 0;
+     bottom: 0;
+     left: 0;
+     z-index: 99;
+     background: rgba(0, 0, 0, 0.6);
+   } 
+  .goodsDetail{
+    position: fixed;
+    top: 20%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 0 20rpx;
+    box-sizing: border-box;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: #fff;
+  }
+  .gd-title{
+    padding: 20rpx 0;
+    text-align: center;
+    line-height: 40rpx;
+  }
+  .gd-scroll{
+    position: absolute;
+    top: 80rpx;
+    right: 0;
+    bottom: 90rpx;
+    left: 0;
+
+  }
+  .gd-pic{
+    width: 100%;
+    padding: 0 20rpx;
+    max-height: 320rpx;
+    margin-bottom: 20rpx;
+    box-sizing: border-box;
+  }
+  .gd-pic image{
+    width: 100%;
+    height: 320rpx;
+  }
+  .gd-block{
+    padding-left: 20rpx;
+    padding-right: 20rpx;
+    padding-bottom: 20rpx;
+    margin-bottom: 20rpx;
+    border-bottom: 1px solid #f9f9f9;
+  }
+  .gd-baseInfo{
+    display: flex;
+    flex-flow: wrap;
+  }
+  .gd-baseInfo-item{
+    width: 50%;
+    padding-left: 16rpx;
+    box-sizing: border-box;
+    line-height: 48rpx;
+    font-size: 24rpx;
+    color: #353535;
+  }
+  .gd-baseInfo-item-name{
+    display: inline-block;
+    margin-right: 20rpx;
+    color: #b8b8b8;
+  }
+  .gd-roomService{
+    font-size: 12px;
+  }
+  .gd-roomService-name{
+    line-height: 48rpx;
+  }
+  .gd-roomService-item{
+    color: #b8b8b8;
+  }
+  .gd-coupon{
+    display: flex;
+    padding: 0 20rpx;
+    margin-bottom: 20rpx;
+    align-items: center;
+    font-size: 24rpx;
+  }
+  .gd-coupon-info::before{
+    content: "卷";
+    position: absolute;
+    top: 4rpx;
+    left: 0;
+    padding: 4rpx;
+    background: red;
+    font-size: 24rpx;
+    line-height: 24rpx;
+    color: #fff;
+  }
+  .gd-coupon-info{
+    position: relative;
+    flex: 1;
+    padding-left: 40rpx; 
+  }
+  .gd-coupon-info-desc{
+    color: #e3e3e3;
+  }
+  .gd-coupon-button{
+    display: inline-block;
+    padding: 10rpx 26rpx;
+    color: #f30;
+  }
+  .gd-pay{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+  }
+  .gd-pay-info,.gd-pay-action{
+    flex: 1;
+    text-align: center;
+    line-height: 90rpx;
+  }
+  .gd-pay-info{
+    padding: 0 10rpx;
+    box-sizing: border-box;
+    text-align: left;
+    background: #f9f9f9;
+  }
+  .gd-price-num{
+    color: #f30;
+  }
+  .priceSaleTips{
+    font-size: 24rpx;
+    color: #b8b8b8;
+  }
+  .gd-pay-action{
+    background: #f30;
+    color: #fff;
+  }
+  .gd-pay .disable{
+    background: #dedede;
+  }
+  .gd-close::after{
+    content: "\e871";
+    position: absolute;
+    right: 20rpx;
+    width: 80rpx;
+    height: 90rpx;
+    text-align: center;
+    line-height: 80rpx;
+  }
+</style>

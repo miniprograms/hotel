@@ -1,0 +1,95 @@
+<template>
+  <view class="container">
+    <view class="getVip">
+      <view class="vipImage">
+        <view class="bigPic"></view>
+        <view class="myvip-info">
+          <view class="myvip-item">
+            <view class="myvip-name">积分</view>
+            <view class="myvip-value">200</view>
+          </view>
+          <view class="myvip-item">
+            <view class="myvip-name">余额</view>
+            <view class="myvip-value">50.00元</view>
+          </view>
+          <view class="myvip-item">
+            <view class="myvip-name">等级</view>
+            <view class="myvip-value">白金卡</view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="myvip">
+        <navigator class="zan-cell zan-cell--access">
+          <view class="zan-cell__bd">去充值</view>
+          <view class="zan-cell__ft">储值1000送100</view>
+        </navigator>
+        <navigator url="../getVip" class="zan-cell zan-cell--access">
+          <view class="zan-cell__bd">会员卡详情</view>
+          <view class="zan-cell__ft"></view>
+        </navigator>
+        <navigator url="vipInfo" class="zan-cell zan-cell--access">
+          <view class="zan-cell__bd">我的特权</view>
+          <view class="zan-cell__ft"></view>
+        </navigator>
+      </view>
+
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class vipinfo extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的会员'
+    }
+  }
+</script>
+
+<style>
+  .vipImage{
+    padding: 40rpx 0;
+    margin-bottom: 20rpx;
+    background: #fff;
+  }
+  .bigPic{
+    width: 80%;
+    height: 300rpx;
+    margin: 0 auto;
+    background: #6146ff;
+    border-radius: 10rpx;
+  }
+  .myvip{
+    background: #fff;
+  }
+  .myvip .zan-cell .zan-cell__bd{
+    font-size: 28rpx;
+  }
+  .myvip .zan-cell .zan-cell__ft{
+    font-size: 24rpx;
+    color: #999;
+  }
+  .myvip-info{
+    display: flex;
+    justify-content: center;
+    margin-top: 40rpx;
+  }
+  .myvip-item{
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #e5e5e5;
+  }
+  .myvip-item:last-child{
+    border: none;
+  }
+  .myvip-name{
+    font-size: 24rpx;
+    color: #666;
+  }
+  .myvip-value{
+    font-size: 32rpx;
+    color: #27ba69;
+  }
+</style>

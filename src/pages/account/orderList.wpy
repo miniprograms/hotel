@@ -1,0 +1,203 @@
+<template>
+  <view class="container">
+    <view class="orderList">
+      <view class="orderList-tab">
+        <view class="ol-tab-item {{ showId === 0 ? 'selected' : ''}}" @tap="tabChange(0)"><text>全部</text></view>
+        <view class="ol-tab-item {{ showId === 1 ? 'selected' : ''}}" @tap="tabChange(1)"><text>待付款</text></view>
+        <view class="ol-tab-item {{ showId === 2 ? 'selected' : ''}}" @tap="tabChange(2)"><text>待入住</text></view>
+      </view>
+      <view class="orderList-panel" hidden="{{ showId !== 0 }}">
+
+        <view class="ol-panel-item">
+          <view class="ol-p-title">
+            <view class="ol-p-t-date">2017-12-28 12:28:59</view>
+            <view class="ol-p-t-status">支付超时</view>
+          </view>
+          <view class="ol-p-detail">
+            <view class="ol-p-d-pic">
+              <image mode="scaleToFill" src="../../static/74.jpg"></image>
+            </view>
+            <view class="ol-p-d-desc">
+              <view class="ol-p-name">高级大床房 x 1间</view>
+              <view class="ol-p-date">入住: 12月28日  离店：12月30日 </view>
+              <view class="ol-p-total">住1晚  /  ¥ 329</view>
+            </view>
+          </view>
+        </view>
+        
+        <view class="ol-panel-item">
+          <view class="ol-p-title">
+            <view class="ol-p-t-date">2017-12-28 12:28:59</view>
+            <view class="ol-p-t-status">待入住</view>
+          </view>
+          <view class="ol-p-detail">
+            <view class="ol-p-d-pic">
+              <image mode="scaleToFill" src="../../static/74.jpg"></image>
+            </view>
+            <view class="ol-p-d-desc">
+              <view class="ol-p-name">高级大床房 x 1间</view>
+              <view class="ol-p-date">入住: 12月29日  离店：12月30日 </view>
+              <view class="ol-p-total">住1晚  /  ¥ 329</view>
+            </view>
+          </view>
+        </view>
+
+        <view class="ol-panel-item">
+          <view class="ol-p-title">
+            <view class="ol-p-t-date">2017-12-28 12:28:59</view>
+            <view class="ol-p-t-status">待付款</view>
+          </view>
+          <view class="ol-p-detail">
+            <view class="ol-p-d-pic">
+              <image mode="scaleToFill" src="../../static/74.jpg"></image>
+            </view>
+            <view class="ol-p-d-desc">
+              <view class="ol-p-name">高级大床房 x 1间</view>
+              <view class="ol-p-date">入住: 12月29日  离店：12月30日 </view>
+              <view class="ol-p-total">住1晚  /  ¥ 329</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- orderList-panel end -->
+
+      <view class="orderList-panel" hidden="{{ showId !== 1 }}">
+        
+        <view class="ol-panel-item">
+          <view class="ol-p-title">
+            <view class="ol-p-t-date">2017-12-28 12:28:59</view>
+            <view class="ol-p-t-status">待付款</view>
+          </view>
+          <view class="ol-p-detail">
+            <view class="ol-p-d-pic">
+              <image mode="scaleToFill" src="../../static/74.jpg"></image>
+            </view>
+            <view class="ol-p-d-desc">
+              <view class="ol-p-name">高级大床房 x 1间</view>
+              <view class="ol-p-date">入住: 12月29日  离店：12月30日 </view>
+              <view class="ol-p-total">住1晚  /  ¥ 329</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- orderList-panel end -->
+
+      <view class="orderList-panel" hidden="{{ showId !== 2 }}">
+        
+        <view class="ol-panel-item">
+          <view class="ol-p-title">
+            <view class="ol-p-t-date">2017-12-28 12:28:59</view>
+            <view class="ol-p-t-status">待入住</view>
+          </view>
+          <view class="ol-p-detail">
+            <view class="ol-p-d-pic">
+              <image mode="scaleToFill" src="../../static/74.jpg"></image>
+            </view>
+            <view class="ol-p-d-desc">
+              <view class="ol-p-name">高级大床房 x 1间</view>
+              <view class="ol-p-date">入住: 12月29日  离店：12月30日 </view>
+              <view class="ol-p-total">住1晚  /  ¥ 329</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- orderList-panel end -->
+
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class integral extends wepy.page {
+    config = {
+      navigationBarTitleText: '全部订单'
+    }
+    data = {
+      showId: 0
+    }
+    methods = {
+      tabChange: function(num) {
+        console.log(num)
+        this.showId = Number(num)
+      }
+    }
+    onLoad(options) {
+      console.log(options.type)
+      this.showId = Number(options.type)
+    }
+  }
+</script>
+
+<style>
+  .orderList{
+    
+  }
+  .orderList-tab{
+    display: flex;
+    margin-bottom: 20rpx;
+    background: #fff;
+  }
+  .ol-tab-item{
+    flex: 1;
+    text-align: center;
+    color: #999;
+  }
+  .ol-tab-item text{
+    display: inline-block;
+    line-height: 80rpx;
+  }
+  .orderList-tab .selected{
+    color: #f30;
+  }
+  .orderList-tab .selected text{
+    border-bottom: 2px solid #f30;
+  }
+  .ol-panel-item{
+    margin-bottom: 20rpx;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fff;
+  }
+  .ol-p-title{
+    display: flex;
+    padding: 0 20rpx;
+    border-bottom: 1px dashed #e5e5e5;
+    font-size: 24rpx;
+    color: #999;
+    line-height: 60rpx;
+  }
+  .ol-p-t-date{
+    flex: 1;
+  }
+  .ol-p-t-status{
+    color: #f30;
+  }
+  .ol-p-detail{
+    display: flex;
+    padding: 20rpx;
+    font-size: 24rpx;
+  }
+  .ol-p-d-pic{
+    width: 170rpx;
+    height: 120rpx;
+    margin-right: 20rpx;
+  }
+  .ol-p-d-pic image{
+    width: 100%;
+    height: 100%;
+  }
+  .ol-p-d-desc{
+    flex: 1;
+  }
+  .ol-p-name{
+    margin-bottom: 14rpx;
+  }
+  .ol-p-date{
+    color: #999;
+  }
+  .ol-p-total{
+    color: #faa5a5;
+  }
+</style>

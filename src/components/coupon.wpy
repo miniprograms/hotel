@@ -1,0 +1,65 @@
+<template>
+  <view class="coupon">
+    <view class="coupon-pic">
+      <image src='{{ coupon.imgUrl }}' mode='widthFix'></image>
+    </view>
+    <view class="coupon-info">
+      <view class="coupon-info-title">{{ coupon.name }}</view>
+      <view class="coupon-info-desc">{{ coupon.desc }}</view>
+    </view>
+    <navigator url="getVip" class="coupon-button">领取</navigator>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class coupon extends wepy.component {
+    props = {
+      coupon: {}
+    }
+
+    methods = {
+    }
+  }
+</script>
+
+<style type="css">
+  .coupon{
+    display: flex;
+    width: 100%;
+    padding: 20rpx 20rpx 16rpx;
+    margin-bottom: 24rpx;
+    box-sizing: border-box;
+    align-items: center;
+    background: #fff;
+  }
+  .coupon-pic{
+    width: 122rpx;
+    margin-right: 16rpx;
+  }
+  .coupon-pic image{
+   max-width: 100%;
+  }
+  .coupon-info{
+    flex: 1;
+  }
+  .coupon-info-title{
+    color: #353535;
+  }
+  .coupon-info-desc{
+    font-size: 24rpx;
+    color: #999;
+  }
+  .coupon-button{
+    padding: 0 30rpx;
+    line-height: 48rpx;
+    font-size: 24rpx;
+    color: #fff;
+    background: #f30;
+    border-radius: 30% / 70%;
+  }
+  .goods-item-rooms .disable{
+    color: #fff;
+    background: #ddd;
+  }
+</style>

@@ -1,0 +1,95 @@
+<template>
+  <view class="container">
+    <view class="record">
+      <view class="record-count">
+        <view class="record-count-name">{{ allData.name }}</view>
+        <view class="record-count-value">{{ allData.value }}</view>
+      </view>
+      <view class="record-list">
+        <view class="record-item" wx:for="{{ allData.items }}">
+          <view class="record-item-info">
+            <view class="r-i-i-name">{{ item.name }}</view>
+            <view class="r-i-i-date">{{ item.date }}</view>
+          </view>
+          <view class="record-item-value">{{ item.value }}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class rechargel extends wepy.page {
+    config = {
+      navigationBarTitleText: '充值记录'
+    }
+    data = {
+      allData: {}
+    }
+    onLoad() {
+      var data = {
+        rechargel: {
+          name: '当前余额',
+          value: '2100元',
+          items: [
+            {
+              name: '店庆大酬宾 共2100元',
+              value: '+2100',
+              date: '2016-12-29 12:59'
+            },
+            {
+              name: '储值5000元送100元 共2100元',
+              value: '+2100',
+              date: '2017-2-18 10:59'
+            },
+            {
+              name: '储值20000元送1000元 共31000元',
+              value: '+31000',
+              date: '2017-12-29 12:59'
+            }
+          ]
+        }
+      }
+      this.allData = data.rechargel
+    }
+  }
+</script>
+
+<style>
+  .record{
+  }
+  .record-count{
+    display: flex;
+    padding: 30rpx 20rpx;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fff;
+    font-size: 28rpx;
+  }
+  .record-count-name{
+    flex: 1;
+  }
+  .record-count-value{
+    font-weight: bold;
+  }
+  .record-list{
+    font-size: 24rpx;
+  }
+  .record-item{
+    display: flex;
+    align-items: center;
+    padding: 18rpx 20rpx;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fff;
+  }
+  .record-item-info{
+    flex: 1;
+  }
+  .r-i-i-date{
+    color: #999;
+  }
+  .record-item-value{
+    color: #f30;
+  }
+</style>

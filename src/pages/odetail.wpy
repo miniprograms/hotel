@@ -1,0 +1,246 @@
+
+<template lang="wxml">
+  <view class="container">
+    <view class="detial">
+      <view class="o-head">
+        <view class="o-head-info">
+          <view class="o-status iconFont">订单确认</view>
+          <view class="o-tips">预订已成功，您可安心入住</view>
+        </view>
+        <view class="o-p-address">
+          <view class="o-p-title">
+            <view class="o-p-title-name">安泰凯芙特酒店</view>
+            <view class="o-p-title-desc">郑州市二七区人民路98号</view>
+          </view>
+          <view class="o-p-fn">
+            <navigator url="map" class="o-p-fn-map iconFont">导航</navigator>
+            <view class="o-p-fn-tel iconFont">电话</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="o-detail">
+        <view class="o-detail-title">高级大床房 1间 住1晚</view>
+
+        <view class="o-in-info o-in-block">
+          <view class="o-detail-cell">
+            <view class="o-cell-title">入住时间：</view>
+            <view class="o-cell-desc">12月28日（周三）</view>
+          </view>
+          <view class="o-detail-cell">
+            <view class="o-cell-title">离店时间：</view>
+            <view class="o-cell-desc">12月29日（周三）下午14：00</view>
+          </view>
+          <view class="o-detail-cell">
+            <view class="o-cell-title">入  住  人：</view>
+            <view class="o-cell-desc">毛英俊  毛帅帅   李四    张三</view>
+          </view>
+          <view class="o-detail-cell">
+            <view class="o-cell-title">联系电话：</view>
+            <view class="o-cell-desc">12月28日（周三）</view>
+          </view>
+        </view>
+        
+        <view class="o-order-info o-in-block">
+          <view class="o-detail-cell">
+            <view class="o-cell-title">订单编号：</view>
+            <view class="o-cell-desc">2017122903215</view>
+          </view>
+          <view class="o-detail-cell">
+            <view class="o-cell-title">订单时间：</view>
+            <view class="o-cell-desc">2017.12.29 12:28:59</view>
+          </view>
+          <view class="o-detail-cell">
+            <view class="o-cell-title">支付金额：</view>
+            <view class="o-cell-desc"><text class="price-num">¥269</text></view>
+          </view>
+          <view class="o-detail-cell">
+            <view class="o-cell-title">支付状态：</view>
+            <view class="o-cell-desc">支付成功</view>
+          </view>
+          <view class="o-detail-cell">
+            <view class="o-cell-title">入  住  人：</view>
+            <view class="o-cell-desc">毛英俊  毛帅帅   李四    张三</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="gd-pay">
+        <view class="gd-pay-info cancelOrderBtn" @tap="cancelOrder">
+          取消订单
+        </view>
+        <navigator open-type="reLaunch" url="assistant/index?order=1" class="gd-pay-action">
+          前往助手
+        </navigator>
+      </view>
+
+      <dialog></dialog>
+    </view>
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import dialog from '../components/dialog/index'
+
+  export default class orderDetail extends wepy.page {
+    data = {}
+    components = {
+      dialog: dialog
+    }
+    methods = {
+      cancelOrder: function() {
+        let dialog = this.$invoke('dialog', 'showZanDialog', {
+          title: '取消订单',
+          content: '是否确认取消订单'
+        })
+        dialog.then((e) => {
+          wx.reLaunch({
+            url: 'index'
+          })
+        })
+      }
+    }
+  }
+</script>
+
+<style lang="css">
+  .o-head{
+    margin-bottom: 20rpx;
+    background: #fff;
+  }
+  .o-head-info{
+    display:flex;
+    align-items:center;
+    flex-direction:column;
+    padding: 80rpx 0;
+    background: #27ba69;
+    color: #fff;
+  }
+  .o-status{
+    margin-bottom: 30rpx;
+    font-size: 32rpx;
+  }
+  .o-status::before{
+    content: "\e8c5";
+    display: inline-block;
+    width: 30rpx;
+    height: 30rpx;
+    margin-right: 10rpx;
+    text-align: center;
+    line-height: 30rpx;
+    vertical-align: middle;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 24rpx;
+    color: #27ba69;
+  }
+  .o-tips{
+    font-size: 24rpx;
+  }
+  .o-p-address{
+    display: flex;
+    align-items: center;
+    padding: 20rpx;
+    font-size: 28rpx;
+  }
+  .o-p-title-desc{
+    font-size: 24rpx;
+    color: #999;
+  }
+  .o-p-title{
+    flex: 1;
+  }
+  .o-p-fn{
+    display: flex;
+    font-size: 24rpx;
+    color: #999;
+  }
+  .o-p-fn-map{
+    margin-right: 20rpx;
+  }
+  .o-p-fn-map::before{
+    content: "\e8e6";
+    vertical-align: middle;
+    margin-right: 10rpx;
+    font-size: 30rpx;
+  }
+  .o-p-fn-tel::before{
+    content: "\e896";
+    display: inline-block;
+    width: 30rpx;
+    height: 30rpx;
+    text-align: center;
+    margin-right: 10rpx;
+    padding: 2rpx;
+    vertical-align: middle;
+    background: #27ba69;
+    border-radius: 50%;
+    line-height: 30rpx;
+    font-size: 24rpx;
+    color: #fff;
+  }
+  .o-detail{
+    padding: 20rpx;
+    font-size: 24rpx;
+    background: #fff;
+  }
+  .o-detail-title{
+    margin-bottom: 20rpx;
+  }
+  .o-in-block{
+    padding-bottom: 10rpx;
+    margin-bottom: 10rpx;
+    border-bottom: 1px dashed #e5e5e5;
+  }
+  .o-in-block:last-child{
+    border: none;
+    margin-bottom: 0;
+  }
+  .o-detail-cell{
+    display: flex;
+    line-height: 48rpx;
+  }
+  .o-cell-title{
+    color: #999;
+  }
+  .price-num{
+    color: #f30;
+  }
+  .cancelOrderBtn{
+    font-size: 24rpx;
+    color: #f30;
+    text-align: center;
+    background: #fff;
+  }
+
+  .gd-pay{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+  }
+  .gd-pay-info,.gd-pay-action{
+    flex: 1;
+    text-align: center;
+    line-height: 90rpx;
+  }
+  .gd-pay-info{
+    padding: 0 10rpx;
+    box-sizing: border-box;
+    background: #f9f9f9;
+  }
+  .gd-price-num{
+    color: #f30;
+  }
+  .priceSaleTips{
+    font-size: 24rpx;
+    color: #b8b8b8;
+  }
+  .gd-pay-action{
+    background: #f30;
+    color: #fff;
+  }
+</style>

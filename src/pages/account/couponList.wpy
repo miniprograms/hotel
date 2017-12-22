@@ -1,0 +1,182 @@
+<template>
+  <view class="container">
+    <view class="orderList">
+      <view class="orderList-tab">
+        <view class="ol-tab-item {{ useStatus === 0 ? 'selected' : ''}}" @tap="tabClick(0)"><text>未使用</text></view>
+        <view class="ol-tab-item {{ useStatus === 1 ? 'selected' : ''}}" @tap="tabClick(1)"><text>已过期</text></view>
+      </view>
+      <view class="couponList-panel" hidden="{{ useStatus !== 0 }}">
+        <view class="cl-panel-item">
+          <view class="coupon-name">
+            ¥<text>10</text>
+          </view>
+          <view class="coupon-detail">
+            <view class="coupon-desc">
+              <view class="coupon-desc-name">无门槛使用券</view>
+              <view class="coupon-desc-date">10/11 10:00 过期</view>
+            </view>
+            <view class="coupon-button">已领取</view>
+          </view>
+        </view>
+        <view class="cl-panel-item">
+          <view class="coupon-name">
+            ¥<text>50</text>
+          </view>
+          <view class="coupon-detail">
+            <view class="coupon-desc">
+              <view class="coupon-desc-name">订单满200可用</view>
+              <view class="coupon-desc-date">10/11 10:00 过期</view>
+            </view>
+            <view class="coupon-button">已领取</view>
+          </view>
+        </view>
+        <view class="cl-panel-item">
+          <view class="coupon-name">
+            ¥<text>80</text>
+          </view>
+          <view class="coupon-detail">
+            <view class="coupon-desc">
+              <view class="coupon-desc-name">订单满500可用</view>
+              <view class="coupon-desc-date">10/11 10:00 过期</view>
+            </view>
+            <view class="coupon-button">已领取</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="couponList-panel lose" hidden="{{ useStatus !== 1 }}">
+        <view class="cl-panel-item">
+          <view class="coupon-name">
+            ¥<text>10</text>
+          </view>
+          <view class="coupon-detail">
+            <view class="coupon-desc">
+              <view class="coupon-desc-name">无门槛使用券</view>
+              <view class="coupon-desc-date">10/11 10:00 过期</view>
+            </view>
+            <view class="coupon-button">已过期</view>
+          </view>
+        </view>
+        <view class="cl-panel-item">
+          <view class="coupon-name">
+            ¥<text>50</text>
+          </view>
+          <view class="coupon-detail">
+            <view class="coupon-desc">
+              <view class="coupon-desc-name">订单满200可用</view>
+              <view class="coupon-desc-date">10/11 10:00 过期</view>
+            </view>
+            <view class="coupon-button">已过期</view>
+          </view>
+        </view>
+        
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class integral extends wepy.page {
+    config = {
+      navigationBarTitleText: '优惠卷'
+    }
+    data = {
+      useStatus: 0
+    }
+    methods = {
+      tabClick: function(num) {
+        this.useStatus = Number(num)
+      }
+    }
+  }
+</script>
+
+<style>
+  .orderList{
+    
+  }
+  .orderList-tab{
+    display: flex;
+    margin-bottom: 20rpx;
+    background: #fff;
+  }
+  .ol-tab-item{
+    flex: 1;
+    text-align: center;
+    color: #999;
+  }
+  .ol-tab-item text{
+    display: inline-block;
+    line-height: 80rpx;
+  }
+  .orderList-tab .selected{
+    color: #f30;
+  }
+  .orderList-tab .selected text{
+    border-bottom: 1px solid #f30;
+  }
+  .cl-panel-item{
+    display: flex;
+    align-items: center;
+    margin: 0 20rpx 20rpx;
+    
+    background: #fff;
+    font-size: 24rpx;
+    overflow: hidden;
+  }
+  .coupon-name{
+    position: relative;
+    flex: 1;
+    padding: 30rpx 0;
+    border: 1px solid #e5e5e5;
+    border-right: 1px dashed #e5e5e5;
+    border-radius: 10px;
+    text-align: center;
+    color: #f30;
+  }
+  .coupon-name::before{
+    content: "";
+    position: absolute;
+    top: -15rpx;
+    right: -15rpx;
+    width: 30rpx;
+    height: 30rpx;
+    background: #f9f9f9;
+    border-radius: 50%;
+  }
+  .coupon-name text{
+    font-size: 56rpx;
+  }
+  .coupon-detail{
+    display: flex;
+    align-items: center;
+    padding: 30rpx 20rpx;
+    flex: 3;
+    border: 1px solid #e5e5e5;
+    border-left: none;
+    border-radius: 10px;
+  }
+  .coupon-desc{
+    flex: 1;
+    line-height: 40rpx;
+  }
+  .coupon-desc-date{
+    color: #999;
+  }
+  .coupon-button{
+    padding: 0 20rpx;
+    border: 1px solid #f30;
+    border-radius: 3px;
+    color: #f30;
+    line-height: 52rpx;
+  }
+  .lose .coupon-name{
+    color: #999;
+  }
+  .lose .coupon-button{
+    color: #999;
+    border-color: #999;
+  }
+</style>

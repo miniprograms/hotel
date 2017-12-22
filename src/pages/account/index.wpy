@@ -1,0 +1,230 @@
+<!-- 个人中心 -->
+<template>
+  <view class="container">
+    <view class="account">
+      <view class="acc-head">
+        <view class="acc-head-user">
+          <view class="avatarImage">
+            <image mode="scaleToFill" src="../../static/9n8KdoFY_bigger.jpg"></image>
+          </view>
+          <view class="nickname">
+            <view class="nickname-name">小强爱旅游</view>
+            <view class="nickname-level">白金卡会员</view>
+          </view>
+        </view>
+        <view class="acc-server">
+          <text class="acc-server-text iconFont">尊享88折等特权</text>
+        </view>
+      </view>
+      <!-- 会员信息面板 -->
+      <view class="memberPanel">
+        <navigator url="rechargeList" class="mP-item">
+          <view class="mP-item-num">¥368</view>
+          <view class="mP-item-name">会员余额</view>
+        </navigator>
+        <navigator url="integral" class="mP-item">
+          <view class="mP-item-num">0</view>
+          <view class="mP-item-name">会员积分</view>
+        </navigator>
+        <navigator url="vipInfo" class="mP-item">
+          <view class="mP-item-num">5</view>
+          <view class="mP-item-name">会员特权</view>
+        </navigator>
+      </view>
+
+      <!-- 非会员信息面板 -->
+      <!-- <view class="nonmemberPanel">
+        <view class="mP-item">
+          <view class="mP-item-name iconFont discountIcon">无房费折扣</view>
+        </view>
+        <view class="mP-item">
+          <view class="mP-item-name iconFont delayIcon">无延时退房</view>
+        </view>
+        <view class="mP-item">
+          <view class="mP-item-name iconFont giftIcon">无积分换房</view>
+        </view>
+        <view class="mP-item highlight">
+          <view class="mP-item-name iconFont upLevelIcon">升级享特权</view>
+        </view>
+      </view> -->
+      
+      <!-- 订单选择 -->
+      <view class="orderIndex">
+        <navigator  url="./orderList?type=0" class="orderIndex-item">
+          <view class="allOrder iconFont orderIcon">全部订单</view>
+        </navigator>
+        <navigator url="./orderList?type=2" class="orderIndex-item">
+          <view class="unused iconFont hotelIcon">待入住</view>
+        </navigator>
+        <navigator url="./orderList?type=1" class="orderIndex-item">
+          <view class="unpaid iconFont payMoneyIcon">待付款</view>
+        </navigator>
+      </view>
+
+      <!-- public list -->
+      <view class="p-list">
+        <navigator url="couponList" class="zan-cell zan-cell--access">
+          <view class="zan-cell__bd">优惠券</view>
+          <view class="zan-cell__ft">0张可使用</view>
+        </navigator>
+        <navigator class="zan-cell zan-cell--access">
+          <view class="zan-cell__bd">我的发票</view>
+          <view class="zan-cell__ft">管理抬头/历史发票</view>
+        </navigator>
+        <navigator url="vip" class="zan-cell zan-cell--access">
+          <view class="zan-cell__bd">我的会员</view>
+          <view class="zan-cell__ft">享88折等特权</view>
+        </navigator>
+        <navigator class="zan-cell zan-cell--access">
+          <view class="zan-cell__bd">反馈意见</view>
+          <view class="zan-cell__ft"></view>
+        </navigator>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class index extends wepy.page {
+    data = {
+    }
+  }
+</script>
+
+<style>
+  .acc-head{
+    position: relative;
+    padding: 50rpx 20rpx;
+    background: #27ba69;
+  }
+  .avatarImage{
+    width: 100rpx;
+    height: 100rpx;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  .avatarImage image{
+    width: 100%;
+    height: 100%;
+  }
+  .acc-head-user{
+    display: flex;
+    align-items: center;
+    color: #fff;
+  }
+  .nickname{
+    margin-left: 20rpx;
+  }
+  .nickname-name{
+    margin-bottom: 10rpx;
+    font-size: 28rpx;
+  }
+  .nickname-level{
+    font-size: 24rpx;
+  }
+  .acc-server{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ffb039;
+    font-size: 24rpx;
+    color: #fff;
+    line-height: 48rpx;
+    padding: 0 6rpx 0 20rpx;
+    border-top-left-radius: 20% 80%;
+    border-bottom-left-radius: 20% 80%;
+  }
+  .acc-server-text::after{
+    content: "\e87f";
+    transform: rotate(-90deg);
+  }
+  .memberPanel,.nonmemberPanel{
+    display: flex;
+    justify-content: center;
+    padding: 20rpx;
+    margin-bottom: 20rpx;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fff;
+  }
+  .mP-item{
+    flex: 1;
+    text-align: center;
+  }
+  .mP-item-num{
+    margin-bottom: 10rpx;
+    font-weight: bold;
+    font-size: 28rpx;
+    color: #f30;
+  }
+  .mP-item-name{
+    font-size: 24rpx;
+    color: #666;
+  }
+  .orderIndex{
+    display: flex;
+    justify-content: center;
+    padding: 20rpx;
+    margin-bottom: 20rpx;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fff;
+  }
+  .orderIndex-item{
+    flex: 1;
+    text-align: center;
+    font-size: 28rpx;
+  }
+  .orderIcon::before,.payMoneyIcon::before,.hotelIcon::before{
+    display: block;
+    margin-bottom: 10rpx;
+    font-size: 50rpx;
+  }
+  .orderIcon::before{
+    content: "\e89a";
+  }
+  .hotelIcon::before{
+    content: "\e89b";
+  }
+  .payMoneyIcon::before{
+    content: "\e899";
+  }
+  .p-list{
+    margin-bottom: 20rpx;
+    border-top: 1px solid #e5e6e5;
+    background: #fff;
+  }
+  .p-list .zan-cell{
+    font-size: 28rpx;
+  }
+  .p-list .zan-cell__ft{
+    font-size: 24rpx;
+    color: #999;
+  }
+
+  .discountIcon::before,.delayIcon::before,.giftIcon::before,.upLevelIcon::before{
+    display: block;
+    margin-bottom: 4rpx;
+    font-size: 48rpx;
+  }
+  .discountIcon::before{
+    content: "\e880";
+  }
+  .delayIcon::before{
+    content: "\e8be";
+  }
+  .giftIcon::before{
+    content: "\e8a0";
+  }
+  .upLevelIcon::before{
+    content: "\e8a6";
+  }
+  .highlight .iconFont{
+    color: #a31a22;
+  }
+  .highlight .iconFont::before{
+    color: #ffb039;
+  }
+</style>

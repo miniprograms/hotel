@@ -1,0 +1,64 @@
+<template>
+  <view class="container">
+    <map class="mapContainer" longitude="113.687752" latitude="34.784595" scale="16"  markers="{{ markers }}" show-location />
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class map extends wepy.page {
+    data = {
+      markers: [{
+        iconPath: '/static/mapIcon.png',
+        id: 0,
+        latitude: 34.784595, // 纬度
+        longitude: 113.687752, // 经度
+        width: 50,
+        height: 50,
+        callout: {
+          content: '大酒店'
+        },
+        label: {
+          content: 'label 大酒店',
+        }
+      }],
+      polyline: [{
+        points: [{
+          longitude: 113.3245211,
+          latitude: 23.10229
+        }, {
+          longitude: 113.324520,
+          latitude: 23.21229
+        }],
+        color: '#FF0000DD',
+        width: 2,
+        dottedLine: true
+      }],
+      controls: [{
+        id: 1,
+        iconPath: '/static/mapIcon.png',
+        position: {
+          left: 0,
+          top: 300 - 50,
+          width: 50,
+          height: 50
+        },
+        clickable: true
+      }]
+    }
+  }
+</script>
+
+<style>
+  .mapContainer{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+  }
+</style>
