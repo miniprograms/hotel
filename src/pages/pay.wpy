@@ -57,7 +57,8 @@
   export default class pay extends wepy.page {
     data = {
       payMethods: 'vip',
-      countDown: ''
+      countDown: '',
+      timeId: ''
     }
     components = {
       dialog: dialog
@@ -77,14 +78,13 @@
     }
     getRemainTime(endDate) {
       let that = this
-      console.log(that)
       function checkTime(i) {
         if (i < 10) {
           i = '0' + i
         }
         return i
       }
-      let timeId = setInterval(() => {
+      that.timeId = setInterval(() => {
         let t = endDate - Date.parse(new Date())
         let seconds = Math.floor((t / 1000) % 60)
         let minutes = Math.floor((t / 1000 / 60) % 60)
@@ -106,12 +106,12 @@
         that.countDown = showTime
         this.$apply()
       }, 1000)
+      this.$apply()
     }
     onLoad() {
-      // let endDate = new Date(+new Date() + 60000 * 30)
-      let endDate = new Date(+new Date() + 60000)
+      console.log('onload paypages', this.timeId)
+      let endDate = new Date(+new Date() + 60000 * 30)
       this.getRemainTime(endDate)
-      // this.apply()
     }
   }
 </script>
@@ -121,28 +121,28 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding: 80rpx;
-    margin-bottom: 24rpx;
+    padding: 40px;
+    margin-bottom: 12px;
     background: #fff;
   }
   .payment-fee{
-    line-height: 88rpx;
-    font-size: 36rpx;
+    line-height: 44px;
+    font-size: 18px;
     color: #262a36;
   }
   .payment-fee-num{
-    font-size: 60rpx;
+    font-size: 30px;
   }
   .payment-desc{
-    font-size: 24rpx;
+    font-size: 12px;
     color: #999;
   }
   .payment-cell{
     position: relative;
     display: flex;
-    padding: 20rpx;
+    padding: 10px;
     background: #fff;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #eee;
   }
   .payment-cell:last-child{
     border: none;
@@ -155,31 +155,31 @@
     align-items: center;
   }
   .payment-method-title{
-    font-size: 28rpx;
-    color: #000;
+    font-size: 14px;
+    color: #353535;
   }
   .payment-tips{
-    padding: 20rpx;
-    line-height: 40rpx;
-    font-size: 24rpx;
-    color: #bbb;
+    padding: 10px;
+    line-height: 20px;
+    font-size: 12px;
+    color: #888;
   }
   .payment-tips-title{
-    margin-bottom: 10rpx;
-    color: #000;
+    margin-bottom: 5px;
+    color: #353535;
   }
   .vip-sum{
-    margin-right: 24rpx;
-    font-size: 24rpx;
-    color: #bbb;
+    margin-right: 12px;
+    font-size: 12px;
+    color: #888;
   }
   .payment-round{
-    width: 34rpx;
-    height: 34rpx;
+    width: 17px;
+    height: 17px;
     background: #dedede;
     border-radius: 50%;
     text-align: center;
-    line-height: 34rpx;
+    line-height: 17px;
   }
   .payment-method-selected .payment-round{
     background: #f30;
@@ -200,18 +200,18 @@
   .weixin::before{
     display: inline-block;
     content: "";
-    width: 34rpx;
-    height: 34rpx;
-    margin-right: 10rpx;
+    width: 17px;
+    height: 17px;
+    margin-right: 5px;
     background-image:url('data:image/png;base64,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');
     background-size: 100% 100%;
     vertical-align: middle;
   }
   .vip::before{
     content: "\e886";
-    margin-top: -4rpx;
-    margin-right: 10rpx;
-    font-size: 34rpx;
+    margin-top: -2px;
+    margin-right: 5px;
+    font-size: 17px;
     color: #ff9800;
     vertical-align: middle;
   }
@@ -226,10 +226,10 @@
   .gd-pay-info,.gd-pay-action{
     flex: 1;
     text-align: center;
-    line-height: 90rpx;
+    line-height: 45px;
   }
   .gd-pay-info{
-    padding: 0 10rpx;
+    padding: 0 5px;
     box-sizing: border-box;
     text-align: left;
     background: #fff;
@@ -239,7 +239,7 @@
     color: #f30;
   }
   .priceSaleTips{
-    font-size: 24rpx;
+    font-size: 12px;
     color: #b8b8b8;
   }
   .gd-pay-action{
@@ -247,11 +247,11 @@
     color: #fff;
   }
   .pay-countdown{
-    font-size: 24rpx;
+    font-size: 12px;
     color: #f30;
   }
   .pay-countdown::before{
     content: "\e8c0";
-    margin-right: 10rpx;
+    margin-right: 5px;
   }
 </style>

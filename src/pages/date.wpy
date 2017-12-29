@@ -1,0 +1,850 @@
+<template>
+  <view class="cal_mn">
+    <view class="cal">
+        <view class="wk pf pd12 tc t11 bg2">
+            <view class="c2">
+                周日
+            </view>
+            <view>
+                周一
+            </view>
+            <view>
+                周二
+            </view>
+            <view>
+                周三
+            </view>
+            <view>
+                周四
+            </view>
+            <view>
+                周五
+            </view>
+            <view class="c2">
+                周六
+            </view>
+        </view>
+        <scroll-view class="plc" scroll-y="true" style="height:{{scrollViewHeight}}px;" scroll-into-view="{{toView}}">
+            <view class="bb1 bgi oh" wx:for="{{dates}}" wx:for-item="items" wx:for-index="index" id="{{'toView_'+index}}">
+                <view class="mth tc">{{months[index]}}</view>
+                <view class="cic pd12">
+                    <view class="ej pl fl mb12 tc" wx:for="{{items}}" wx:for-item="item">
+                        <view class="day  {{item.classNames}}" data-classNames="{{item.classNames}}" data-value="{{item.value}}" data-day="{{item.day}}" @tap="select">
+                            {{item.showDay}}
+                        </view>
+                        <view class="{{item.txt?'info':''}}" data-value="{{item.value}}" data-day="{{item.day}}" @tap="select">{{item.txt}}</view>
+                        <!--                             <view class="{{item.work == '休'?'rest':'work1'}}" data-value="{{item.value}}" data-day="{{item.day}}" bindtap="select">{{item.work}}</view>
+ --></view>
+                </view>
+            </view>
+            <view class="vfd"></view>
+        </scroll-view>
+    </view>
+</view>
+<dialog></dialog>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { getCurrentDate } from '../utils/util.js'
+  import dialog from '../components/dialog/index'
+
+  export default class date extends wepy.page {
+    config = {
+      'navigationBarTitleText': '选择日期'
+    }
+    components = {
+      dialog: dialog
+    }
+    data = {
+      count: 3,
+      today: 0,
+      start: null,
+      end: null,
+      date: null,
+      months: [],
+      dates: [],
+      zh: {
+        split: '/',
+        rest: '休',
+        work: '班',
+        overflow: '如果您需要入住酒店超过20天，请致电 xxxx，我们会竭诚为您服务。',
+        day: '日',
+        week: '周',
+        month: '月',
+        year: '年',
+        totalText: '共`${this.state.total}`晚',
+        dayinfo: ['今天', '明天', '后天'],
+        weekinfo: ['日', '一', '二', '三', '四', '五', '六']
+      },
+      classNames: {
+        start: 'start',
+        end: 'end',
+        range: 'range',
+        bottom: 'bottom',
+        button: 'button',
+        enable: 'enable',
+        today: 'today'
+      },
+      festivaltag: {
+        '1-1': ['元旦'],
+        '2-14': ['情人节'],
+        '3-8': ['妇女节'],
+        '5-1': ['劳动节'],
+        '6-1': ['儿童节'],
+        '10-1': ['国庆'],
+        '12-24': ['平安夜'],
+        '12-25': ['圣诞节']
+      },
+      cnfestivaltag: {
+        '2016-2-7': ['除夕'],
+        '2016-2-8': ['春节'],
+        '2016-2-22': ['元宵节'],
+        '2016-4-4': ['清明'],
+        '2016-5-1': ['劳动节'],
+        '2016-6-9': ['端午节'],
+        '2016-6-19': ['父亲节'],
+        '2016-7-1': ['建党'],
+        '2016-8-1': ['建军'],
+        '2016-8-9': ['七夕'],
+        '2016-8-17': ['中元节'],
+        '2016-9-10': ['教师节'],
+        '2016-9-15': ['中秋节'],
+        '2016-10-9': ['重阳节'],
+        '2016-10-31': ['万圣节'],
+        '2016-11-24': ['感恩节'],
+        '2017-1-5': ['腊八'],
+        '2017-1-23': ['小年'],
+        '2017-1-27': ['除夕'],
+        '2017-2-14': ['情人节'],
+        '2017-2-11': ['元宵节']
+      },
+      holidaytag: {
+        '2016-1-1': ['休'],
+        '2016-1-2': ['休'],
+        '2016-1-3': ['休'],
+        '2016-2-6': ['班'],
+        '2016-2-7': ['休'],
+        '2016-2-8': ['休'],
+        '2016-2-9': ['休'],
+        '2016-2-10': ['休'],
+        '2016-2-11': ['休'],
+        '2016-2-12': ['休'],
+        '2016-2-13': ['休'],
+        '2016-2-14': ['班'],
+        '2016-4-2': ['休'],
+        '2016-4-3': ['休'],
+        '2016-4-4': ['休'],
+        '2016-4-30': ['休'],
+        '2016-5-1': ['休'],
+        '2016-5-2': ['休'],
+        '2016-6-9': ['休'],
+        '2016-6-10': ['休'],
+        '2016-6-11': ['休'],
+        '2016-6-12': ['班'],
+        '2016-9-15': ['休'],
+        '2016-9-16': ['休'],
+        '2016-9-17': ['休'],
+        '2016-9-18': ['班'],
+        '2016-10-1': ['休'],
+        '2016-10-2': ['休'],
+        '2016-10-3': ['休'],
+        '2016-10-4': ['休'],
+        '2016-10-5': ['休'],
+        '2016-10-6': ['休'],
+        '2016-10-7': ['休'],
+        '2016-10-8': ['班'],
+        '2016-10-9': ['班']
+      },
+      scrollViewHeight: 667 // scroll-view默认高度
+    }
+    methods = {
+      select(e) {
+        // var day = e.target.dataset.value
+        var value = e.target.dataset.day
+        if (!value) {
+          return
+        }
+        var start = this.start
+        var end = this.end
+        var valueDate = new Date(value)
+        var today = Math.min(this.start, this.today)
+
+        var d = Math.round(((valueDate - today) / (86400000)))
+        var endd = Math.round(((valueDate - new Date(start)) / (86400000))) + 1
+
+        if (d < 0 && !this.isLateMightModel(valueDate)) {
+          return
+        }
+        // debugger;
+        if (this.start && +valueDate === +this.start && !this.end) {
+          this.start = null
+          this.enb = null
+          this.$apply()
+          this.onChange(value, null, null)
+          return false
+        }
+        // 开始日期小于开始日期
+        if (valueDate < this.start && !this.end) {
+          this.start = new Date(value)
+          this.end = null
+          this.$apply()
+          this.onChange(value, valueDate, null)
+          return false
+        }
+        // 不能大于20天
+        if (this.start && this.end === null && endd > 20) {
+          // api.showModal(this.zh.overflow)
+          this.$invoke('dialog', 'showZanDialog', {
+            content: this.zh.overflow
+          })
+          return false
+        }
+        // 不能入离同天
+        if (this.start && this.getDateString(value, '-') === this.getDateString(this.start, '-') && !this.end) {
+          return false
+        }
+        if (start && end) {
+          this.start = new Date(value)
+          this.end = null
+          this.$apply()
+          this.onChange(value, this.start, null)
+          return false
+        }
+        if (start && !end) {
+          this.start = new Date(start)
+          this.end = new Date(value)
+          this.$apply()
+          this.onChange(value, this.start, this.end)
+          return false
+        }
+        if (!start && !end) {
+          this.start = new Date(value)
+          this.end = null
+          this.$apply()
+          this.onChange(value, this.start, this.end)
+          return false
+        }
+      }
+    }
+    _initStart(start, today) {
+      if (typeof (start) === 'string') {
+        start = start.replace(/-/g, '/')
+      }
+      if (start) {
+        return new Date(start)
+      }
+      var n = new Date(today)
+      var t = n.getHours()
+      if (t >= 0 && t <= 5) {
+        n.setDate(n.getDate() - 1)
+      }
+      n.setHours(0)
+      n.setMinutes(0)
+      n.setSeconds(0)
+      n.setMilliseconds(0)
+      return n
+    }
+    _initEnd(end, today) {
+      if (typeof (end) === 'string') {
+        end = end.replace(/-/g, '/')
+      }
+      if (end) {
+        return new Date(end)
+      }
+      var n = new Date(today)
+      var t = n.getHours()
+      if (!(t >= 0 && t <= 5)) {
+        n.setDate(n.getDate() + 1)
+      }
+      n.setHours(0)
+      n.setMinutes(0)
+      n.setSeconds(0)
+      n.setMilliseconds(0)
+      return n
+    }
+    onLoad(options) {
+      var _this = this
+      console.log(_this.initStart,this.data)
+      var _today = options.today ? new Date(options.today) : new Date()
+      var _initStart = _this._initStart(options.begin, _today)
+      var _start = _this._initStart(options.begin, _today)
+      var _initEnd = _this._initEnd(options.end, _today)
+      var _end = _this._initEnd(options.end, _today)
+      var _date = (function (start, index) {
+        var begin = new Date(Math.min(start, new Date()))
+        return new Date(begin.getFullYear(), begin.getMonth() + 1, 0)
+      })(options.start || _start)
+      var _dates = []
+      var _months = []
+      // 设置整点
+      _today.setHours(0)
+      _today.setMinutes(0)
+      _today.setSeconds(0)
+      _today.setMilliseconds(0)
+
+      _this.today = _today
+      _this.initStart = _initStart
+      _this.initEnd = _initEnd
+      _this.start = _start
+      _this.end = _end
+      _this.date = _date
+
+      // data.dates压栈
+      for (var i = 0; i < _this.count; i++, _this.toViewIndex++) {
+        var _newDate = new Date(_date.getFullYear(), _date.getMonth() + i, 1)
+        _months.push(_newDate.getFullYear() + '年' + (_newDate.getMonth() + 1) + '月')
+        _dates.push(_this.createDate(_newDate))
+      }
+      _this.dates = _dates
+      _this.months = _months
+    }
+    onReady() {
+      this.setScrollViewHeight()
+    }
+    setScrollViewHeight() {
+      // api.getSystemInfo({
+      //   success: function(data) {
+      //     this.setData({
+      //       toView: this.data.toView,
+      //       scrollViewHeight: data.windowHeight
+      //     });
+      //   }.bind(this)
+      // });
+      var self = this
+      wx.getSystemInfo({
+        success: function(data) {
+          console.log(this.toView,data)
+          self.scrollViewHeight = data.windowHeight
+        }
+      })
+    }
+    onChange(value, start, end) {
+      // debugger;
+      var self = this
+      var _dates = self.dates
+      _dates.map(function(items, i1) {
+        items.map(function(item, i2) {
+          var c = self.getItemClass(item.day, item.day.split('/')[2], start, end)
+          item.classNames = c
+          item.txt = +self.start === +new Date(item.day) ? '入住' : +self.end === +new Date(item.day) ? '离店' : ''
+        })
+      })
+      this.dates = _dates
+      this.$apply()
+      if (this.start && this.end) {
+
+        setTimeout(function(){
+          wx.navigateBack(1)
+        }, 100)
+      }
+    }
+    onUnload() {
+      var self = this
+      // 完整选择了入离日后触发事件
+      if (this.start && this.end && (this.start !== this.initStart || this.end !== this.initEnd)) {
+        
+        // this.fireEvent('select', {
+        //   start: this.start,
+        //   end: this.end
+        // })
+        var start = getCurrentDate(self.start)
+        var end = getCurrentDate(self.end)
+        wx.setStorageSync('inDate', start)
+        wx.setStorageSync('outDate', end)
+      }
+    }
+    getShowDate(index, day) {
+      var txt = new Date(day)
+      if (!txt) {
+        return false
+      }
+      if (this.isLateMightModel(txt)) {
+        return '深夜'
+      }
+      var festival = this.getFestivaltag([txt.getFullYear(), txt.getMonth() + 1, txt.getDate()].join('-'))
+      var today = Math.min(this.start, this.today)
+      var d = Math.round(((new Date(day + ' 00:00:00') - today) / (86400000)))
+      if (this.getDateString(this.start) === this.getDateString(new Date(day))) {
+        return txt.getDate()
+      }
+      if (this.getDateString(this.end) === this.getDateString(new Date(day))) {
+        return txt.getDate()
+      }
+      if (d === 0) {
+        return this.zh.dayinfo[0]
+      }
+      return festival || txt.getDate()
+    }
+    getDateString(date, split) {
+      if (typeof (date) === 'string') {
+        date = new Date(date)
+      }
+      split = split || this.zh.split
+      var tempArr = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+      return tempArr.join(split)
+    }
+    getDay(tempDate, tempDateStr, day) {
+      var fest = this.festivaltag[tempDateStr] || ''
+      var select = this.select
+      var ret = ''
+      ret = day
+      return ret
+    }
+    getFestivaltag(date) {
+      var md = [date.split('-')[1], date.split('-')[2]].join('-')
+      return this.festivaltag[md] || this.getCnfestivaltag(date)
+    }
+    getCnfestivaltag(date) {
+      return this.cnfestivaltag[date]
+    }
+    getHolidaytag(date) {
+      var txt = new Date(date)
+      var dateArr = [txt.getFullYear(), txt.getMonth() + 1, txt.getDate()]
+      return this.holidaytag[dateArr.join('-')]
+    }
+    getFestival(index) {
+      var dateArr = [this.date.getFullYear(), this.date.getMonth() + 1, txt]
+      var festival = this.getHolidaytag[dateArr.join('-')]
+      var tempDate = new Date(dateArr.join('/'))
+      return festival
+    }
+    getItemClass(day, value, start, end) {
+      if (!day) {
+        return false
+      }
+      var date = new Date(day)
+      var strDate = [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-')
+      var festival = this.getFestivaltag(strDate)
+      var holidaytag = this.getHolidaytag(strDate)
+      var today = Math.min((this.start || new Date()), this.today)
+      var d = Math.round(((date - today) / (86400000)))
+      var _start = new Date(start)
+      var _end = new Date(end)
+      var clsArr = []
+      var day = date.getDay()
+
+      if (d >= 0 || this.isLateMightModel(date)) {
+        clsArr.push(this.classNames.enable)
+        if (day === 0 || day === 6 || festival || holidaytag) {
+          if (holidaytag && holidaytag[0] === '班') {
+            clsArr.push('work')
+          } else {
+            clsArr.push('sunday')
+          }
+        }
+      }
+      if (d === 0) {
+        clsArr.push(this.classNames.today)
+      }
+      if (this.getDateString(date) === this.getDateString(_start)) {
+        clsArr = [this.classNames.start]
+        this.toView = 'toView_' + this.toViewIndex
+        this.$apply()
+      }
+      if ((date > _start && date < _end)) {
+        clsArr = [this.classNames.range]
+      }
+      if (value && start && this.getDateString(date) === this.getDateString(_end)) {
+        clsArr = [this.classNames.end]
+      }
+      return value ? clsArr.join(' ') : ''
+    }
+    createDate(date) {
+      var returnValue = []
+      var day = date.getDate()
+      var beginDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay()
+      var nDays = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+      var pushObj = {
+        day: '',
+        value: '',
+        showDay: ''
+      }
+      var len = 43 - (42 - nDays - beginDay)
+      for (var i = 1; i < len; i++) {
+        var tempDate = new Date(date.getFullYear(), date.getMonth(), (i - beginDay), 0, 0, 0)
+        var d = Math.round(((tempDate - this.today) / (86400000))) + 1
+        var tempDateStr = this.getDateString(tempDate)
+        if (i > beginDay && i <= nDays + beginDay) {
+          var _day = this.getDay(tempDate, tempDateStr, i - beginDay)
+          var _class = this.getItemClass(tempDateStr, _day, this.start, this.end)
+          pushObj = {
+            day: tempDateStr,
+            value: _day,
+            showDay: this.getShowDate(i, tempDateStr),
+            classNames: _class,
+            work: _class.match('sunday') ? '休' : _class.match('work') ? '班' : '',
+            txt: +this.start === +new Date(tempDateStr) ? '入住' : +this.end === +new Date(tempDateStr) ? '离店' : ''
+          }
+        }
+        returnValue.push(pushObj)
+      }
+      return returnValue
+    }
+    isLateMightModel(target) {
+      var time = new Date()
+      var t = time.getHours()
+      return (t < 5 && (+target + 86400000) === +this.today)
+    }
+  }
+</script>
+
+<style lang='css'>
+view{
+  box-sizing: border-box;
+  line-height: 22px;
+  font-size: 14px;
+}
+.oh {
+    overflow: hidden
+}
+.pl {
+position: relative
+}
+
+.pa {
+position: absolute
+}
+
+.pf {
+position: fixed
+}
+
+.fl {
+float: left
+}
+
+.fr {
+float: right
+}
+
+.db {
+display: block
+}
+
+.dbi {
+display: inline-block
+}
+
+.dn {
+display: none
+}
+
+.mt8 {
+margin-top: 8px
+}
+
+.mt12 {
+margin-top: 12px
+}
+
+.mt15 {
+margin-top: 15px
+}
+
+.mt20 {
+margin-top: 20px
+}
+
+.mb4 {
+margin-bottom: 4px
+}
+
+.mb8 {
+margin-bottom: 8px
+}
+
+.mb12 {
+margin-bottom: 12px
+}
+
+.mb15 {
+margin-bottom: 15px
+}
+
+.mb20 {
+margin-bottom: 20px
+}
+
+.ml12 {
+margin-left: 12px;
+}
+
+.pt8 {
+padding-top: 8px;
+}
+
+.pt12 {
+padding-top: 12px;
+}
+
+.pt10 {
+padding-top: 10px;
+}
+
+.pr12 {
+padding-right: 12px;
+}
+
+.pr10 {
+padding-right: 10px;
+}
+
+.pb8 {
+padding-bottom: 8px;
+}
+
+.pb12 {
+padding-bottom: 12px;
+}
+
+.p12 {
+padding: 12px;
+}
+
+.pd12 {
+padding: 0 12px;
+}
+
+.pd10 {
+padding: 0 10px;
+}
+
+.b1 {
+border: 1px solid #E0E0E0
+}
+
+.bt1 {
+border-top: 1px solid #E0E0E0
+}
+
+.bb1 {
+border-bottom: 1px solid #E0E0E0
+}
+
+.br1 {
+border-right: 1px solid #E0E0E0
+}
+
+.bl1 {
+border-left: 1px solid #E0E0E0
+}
+
+.bt2 {
+border-top: 1px solid #E0E0E0;
+}
+
+.bb2 {
+border-bottom: 1px solid #E0E0E0
+}
+
+.br2 {
+border-right: 1px solid #E0E0E0
+}
+
+.tc {
+text-align: center
+}
+
+.tr {
+text-align: right
+}
+
+.tl {
+text-align: left
+}
+
+.t9 {
+font-size: 18rpx
+}
+
+.t10 {
+font-size: 20rpx
+}
+
+.t11 {
+font-size: 22rpx
+}
+
+.t12 {
+font-size: 24rpx
+}
+
+.t13 {
+font-size: 26rpx
+}
+
+.t14 {
+font-size: 28rpx
+}
+
+.t16 {
+font-size: 32rpx
+}
+
+.t17 {
+font-size: 34rpx
+}
+
+.t18 {
+font-size: 36rpx
+}
+
+.t20 {
+font-size: 40rpx
+}
+
+.lh1 {
+line-height: 1
+}
+
+.c1 {
+color: #09bb07
+}
+
+.c2 {
+color: #f55
+}
+
+.c3 {
+color: #333
+}
+
+.c4 {
+color: #888
+}
+
+.c5 {
+color: #ccc
+}
+
+.c6 {
+color: #576b95
+}
+
+.c7 {
+color: #e64340
+}
+
+.bg1 {
+background-color: #fff
+}
+
+.bg2 {
+background-color: #f4f4f4
+}
+
+.bg3 {
+background-color: #f2f2f2
+}
+.tg1 {
+padding: 0 1px;
+border: 1px solid #09bb07;
+font-size: 18rpx;
+line-height: 24rpx;
+border-radius: 2px;
+color: #09bb07;
+}
+
+.btn1 {
+flex: 1;
+height: 40px;
+line-height: 38px;
+font-size: 34rpx
+}
+
+.btn2 {
+height: 32px;
+line-height: 30px;
+font-size: 28rpx
+}
+
+.btn3 {
+height: 28px;
+line-height: 26px;
+font-size: 24rpx
+}
+
+.art,
+.arb,
+.arr {
+content: "";
+width: 8px;
+height: 8px;
+border: 1px solid #b2b2b2;
+border-width: 0 0 1px 1px;
+display: inline-block;
+vertical-align: middle;
+}
+
+.art {
+transform: rotate(135deg);
+-webkit-transform: rotate(135deg);
+}
+
+.arb {
+transform: rotate(-45deg);
+-webkit-transform: rotate(-45deg);
+}
+
+.arr {
+transform: rotate(-135deg);
+-webkit-transform: rotate(-135deg);
+}
+
+.ich {
+display: block;
+margin: 4px auto;
+width: 22px;
+height: 22px;
+background: url(https://m.elongstatic.com/static/xcximg/201610/home_icon.png?t =201610031554) no-repeat;
+background-size: 384px 32px
+}
+
+.ic {
+display: inline-block;
+width: 16px;
+height: 16px;
+background: url(https://m.elongstatic.com/static/xcximg/201610/list_icon.png?t =201701171451) no-repeat;
+background-size: 512px 288px;
+}
+
+.icmy {
+display: inline-block;
+width: 15px;
+height: 16px;
+background: url(https://m.elongstatic.com/static/xcximg/201610/myelong_icon1.png) no-repeat;
+background-size: 300px 450px;
+}
+
+.icpy {
+display: inline-block;
+width: 16px;
+height: 16px;
+background: url(https://m.elongstatic.com/static/xcximg/201610/payment_icon.png) no-repeat;
+background-size: 512px 288px;
+}
+   
+  .cal_mn { overflow: hidden; color: #333;}
+  .sunday { color: #f55; }
+  .cal .wk { display: flex; width: 100%; height: 36px; z-index: 2; }
+  .cal .wk view { flex: 1; line-height: 36px; }
+  .cal .plc { padding-top: 36px; padding-bottom: 24px; }
+  .cal .mth { height: 44px; line-height: 44px; }
+  .cal .cic { height: auto; }
+  .cal .ej { width: 14.2857143%; height: 48px; }
+  .ej .day { line-height: 48px; }
+  .ej .start, .ej .end { line-height: 16px; padding-top: 8px; padding-bottom: 24px; background-color: #09bb07; color: #fff; }
+  .ej .start { border-top-left-radius: 5px; border-bottom-left-radius: 5px; }
+  .ej .end { border-top-right-radius: 5px; border-bottom-right-radius: 5px; }
+  .ej .info { position: absolute; z-index: 99; left: 50%; margin-left: -10px; color: #fff; font-size: 20rpx; bottom: 2px; }
+  .ej .rest, .ej .work1 { position: absolute; top: 3px; right: 5px; width: auto; font-size: 10px; height: 12px; line-height: 6px; }
+  .ej .rest { color: #f55; }
+  .ej .range { background-color: #d2f1d3; }
+  .cic .ej .range { display: block; color: #09bb07; }
+  .ej .range .info { color: #09bb07; }
+  .ej .enable { color: #333; }
+  .ej view { color: #b2b2b2; }
+  .ej .sunday { color: red; }
+  .vfd { width: 100%; height: 30px; }
+</style>

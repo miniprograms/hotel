@@ -18,7 +18,7 @@
 
         <view class="goods-item-rooms">
           <view class="goods-room" wx:for="{{ goodsItem.rooms }}" wx:for-item="roomItem" wx:key="{{ roomItem.id }}">
-            <view class="room-name">{{ roomItem.name }}</view>
+            <view class="room-name {{ roomItem.quanState ? 'quanIcon' : '' }}">{{ roomItem.name }}</view>
             <view class="room-price">¥<text class="room-price-num">{{ roomItem.price }}</text></view>
               <view class="room-button {{ goodsItem.status === 0 ? 'disable' : 'enable' }}" @tap="goOrder({{ goodsItem.status }})">{{ goodsItem.status === 0 ? '客满' : '预定' }}</view>  
           </view>
@@ -61,14 +61,21 @@
 
 <style lang="css">
   .goodsList{
-    padding: 20rpx 20rpx 0;
+    padding: 16px 10px;
   }
   .goods-item{
-    margin-bottom: 30rpx;
+    margin-bottom: 16px;
+    background: #fff;
   }
   .goods-item-info{
     position: relative;
-    height: 280rpx;
+    height: 320rpx;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    overflow: hidden;
+  }
+  .goods-item-pic{
+    background: #fff;
     overflow: hidden;
   }
   .goods-item-pic image{
@@ -89,14 +96,14 @@
     background: rgba(0, 0, 0, .4)
   }
   .pos-info-name{
-    margin-bottom: 20rpx;
-    font-size: 30rpx;
+    margin-bottom: 10px;
+    font-size: 16px;
     color: #fff;
     font-weight: bold;
   }
   .goods-serviceItem{
-    margin-bottom: 32rpx;
-    font-size: 24rpx;
+    margin-bottom: 16px;
+    font-size: 12px;
     color: #dbdbdb;
   }
   .goods-serviceItem .goods-serviceItem-tag:last-child:after{
@@ -108,26 +115,39 @@
     padding: 0 12rpx;
   }
   .pos-info-button{
-    padding: 0 32rpx;
-    line-height: 48rpx;
-    font-size: 24rpx;
+    padding: 0 16px;
+    line-height: 24px;
+    font-size: 12px;
     color: #fff;
     border: 1px solid #fff;
     border-radius: 20% / 80%;
   }
   .goods-item-rooms{
-    box-shadow: 0 3px 5px #ccc;
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
   }
   .goods-room{
     display: flex;
     align-items: center;
-    padding: 26rpx 24rpx;
-    border-bottom: 1px solid #e5e5e5;
+    padding: 12px 24rpx;
+    border-bottom: 1px solid #eee;
     box-sizing: border-box;
     color: #353535;
   }
   .room-name{
     flex: 3;
+  }
+  .quanIcon::after{
+    content: "券";
+    display: inline-block;
+    padding: 0 3px;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-radius: 2px;
+    font-size: 10px;
+    line-height: 16px;
+    background: #ffd9d1;
+    color: #f30;
   }
   .room-price{
     flex: 1;
@@ -140,5 +160,6 @@
     font-size: 24rpx;
     color: #fff;
     background: #f30;
+    border-radius: 2px;
   }
 </style>

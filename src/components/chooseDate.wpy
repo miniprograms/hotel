@@ -1,39 +1,123 @@
 <template>
-  <view class="chooseDate" @tap="goSelectDate">
-    <view class="c-date-left">
-      <text class="in-date">{{ date.inDate }}</text> - <text class="out-date">{{ date.outDate }}</text>
+  <view class="chooseDate v2">
+    <view class="cd-roomsType" wx:if="{{ type }}">
+      <view class="cd-typesItem {{ typesItem === 0 ? 'selected' : '' }}" @tap="typesItemTab(0)"><text>全日预订</text></view>
+      <view class="cd-typesItem {{ typesItem === 1 ? 'selected' : '' }}" @tap="typesItemTab(1)"><text>钟点房</text></view>
+      <view class="cd-typesItem {{ typesItem === 2 ? 'selected' : '' }}" @tap="typesItemTab(2)"><text>长租房</text></view>
     </view>
-    <view class="c-date-num">住{{ date.numDate }}晚</view>
-    <view class="rightArrow iconFont"></view>
+    <navigator url="date?begin={{ indate.y }}&end={{ outdate.y }}" class="cd-date-box">
+      <view class="cd-date-in">
+        <view class="cd-date-name" wx:if="{{ typeWeek }}">{{ indate.week }}入住</view>
+        <view class="cd-date-value">{{ indate.d }} {{ todayStart }}</view>
+      </view>
+      <view class="cd-date-num"><text>住{{ num }}晚</text></view>
+      <view class="cd-date-out">
+        <view class="cd-date-name" wx:if="{{ typeWeek }}">{{ outdate.week }}入住</view>
+        <view class="cd-date-value">{{ outdate.d }} {{ todayEnd }}</view>
+      </view>
+      <view class="cd-arrow iconFont rightArrow"></view>
+    </navigator>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
-
+  import { getCurrentDate } from '../utils/util.js'
+  
   export default class chooseDate extends wepy.component {
     props = {
+      type: {
+        type: Boolean,
+        default: true
+      },
+      typeWeek: {
+        type: Boolean,
+        default: true
+      },
       date: {}
     }
-
     data = {
+      indate: {},
+      outdate: {},
+      num: '',
+      todayStart: '',
+      todayEnd: '',
+      typesItem: 0
     }
-
     methods = {
-      goSelectDate: function() {
+      typesItemTab: function(num) {
+        this.typesItem = Number(num)
       }
+    }
+    setDate(inDate, outDate) {
+      if (inDate && outDate) {
+        this.indate = inDate
+        this.outDate = outDate
+      }
+    }
+    dayNum(start, end) {
+      var today = new Date(new Date().format('yyyy-MM-dd')).getTime()
+      var start = new Date(start).getTime()
+      var end = new Date(end).getTime()
+      var day = this.tomorrow(end, start)
+      var todayStart = ''
+      var todayEnd = ''
+      switch (this.tomorrow(start, today)) {
+        case 0:
+          todayStart = '今天'
+        break;
+        case 1:
+          todayStart = '明天'
+        break;
+        default:
+          todayStart = ''
+      }
+      switch (this.tomorrow(end, today)) {
+        case 1:
+          todayEnd = '明天'
+        break;
+        case 2:
+          todayEnd = '后天'
+        break;
+        default:
+          todayEnd = ''
+      }
+      this.todayStart = todayStart
+      this.todayEnd = todayEnd
+      this.day = day
+    }
+    tomorrow(day1, day2) {
+      return (day1 - day2) / 3600000 / 24
+    }
+    settingDate() {
+      console.log('component fires')
+      var inDate = wx.getStorageSync('inDate') || getCurrentDate(new Date().format('yyyy-MM-dd'))
+      var outDate = wx.getStorageSync('outDate') || getCurrentDate(new Date(+new Date + 3600000 * 24).format('yyyy-MM-dd'))
+
+        this.indate = inDate
+        this.outdate = outDate
+        this.dayNum(inDate.y, outDate.y)
+        this.$apply()
     }
   }
 </script>
 
 <style lang="css">
   .chooseDate{
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 98;
     display: flex;
-    padding: 16rpx 20rpx;
+    padding: 8px 20rpx;
+    /*border-bottom-left-radius: 4px;*/
+    /*border-bottom-right-radius: 4px;*/
+    background: #fff;
     box-sizing: border-box;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #eee;
   }
   .c-date-left{
     flex: 1;
+    color: #353535;
   }
   .c-date-num{
     color: #2120e0;
@@ -42,5 +126,69 @@
     color: #999;
     transform: rotate(-90deg);
   }
-
+  .cd-roomsType{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  .v2{
+    display: block;
+    padding: 0;
+  }
+  .cd-typesItem{
+    flex: 1;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+  .cd-typesItem text{
+    display: inline-block;
+    padding: 10px 0;
+    margin-bottom: -1px;
+    line-height: 24px;
+    color: #353535;
+    border-bottom: 2px solid transparent;
+  }
+  .cd-roomsType .selected{
+    color: #f30;
+  }
+  .cd-roomsType .selected text{
+    border-bottom: 2px solid #f30;
+  }
+  .cd-date-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+  }
+  .cd-date-in,.cd-date-out{
+    flex: 2;
+    line-height: 20px;
+    text-align: center;
+  }
+  .cd-date-num{
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+  }
+  .cd-date-num text{
+    display: inline-block;
+    padding: 0 10px;
+    border-radius: 30% / 70%;
+    line-height: 1.6;
+    color: #7885ff;
+    background: rgba(227,228,255,1);
+  }
+  .cd-date-name{
+    font-size: 12px;
+    color: #888;
+  }
+  .cd-date-value{
+    font-weight: bold;
+    font-size: 14px;
+    color: #353535;
+  }
+  .cd-arrow{
+    position: relative;
+    left: -10px;
+  }
 </style>

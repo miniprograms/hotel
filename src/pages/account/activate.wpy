@@ -1,0 +1,91 @@
+<template>
+<view class="container">
+  <view class="vipImage">
+    <swiper current="{{ vipLevel }}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" indicator-color="{{ indicatorColor }}" indicator-active-color="{{ indicatorActiveColor }}">
+      <block>
+        <swiper-item>
+          <view class="bigPic" style="background: #5c44ff;">
+            <view class="vipCard-Name"><view class="vipCard-pname">凯夫特酒店</view>钻石会员</view>
+            <view class="vipCard-num">No: 0159 6013 1327</view>
+          </view>
+        </swiper-item>
+        <swiper-item>
+          <view class="bigPic">
+            <view class="vipCard-Name">
+              <view class="vipCard-pname">凯夫特酒店</view>黄金会员
+            </view>
+            <view class="vipCard-num">No: 0159 6013 1327</view>
+          </view>
+        </swiper-item>
+        <swiper-item>
+          <view class="bigPic" style="background: #ec4906;">
+            <view class="vipCard-Name"><view class="vipCard-pname">凯夫特酒店</view>白银会员</view>
+            <view class="vipCard-num">No: 0159 6013 1327</view>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="activateInfo">
+      <text>激活会员卡</text>
+    </view>
+    <view class="activateTips">激活立送100积分</view>
+  </view>
+  <view class="-info"></view>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class activate extends wepy.page {
+    data = {}
+  }
+</script>
+
+<style>
+  .vipImage{
+    padding: 30px 0;
+    background: #fff;
+  }
+  .bigPic{
+    position: relative;
+    width: 80%;
+    height: 150px;
+    padding: 10px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background: #6146ff;
+    border-radius: 5px;
+  }
+  .vipCard-Name{
+    font-size: 12px;
+    color: #cfb3fc;
+  }
+  .vipCard-pname{
+    font-size: 14px;
+    color: #fff;
+  }
+  .vipCard-num{
+    margin-top: 60px;
+    color: #fff;
+  }
+  .activateInfo{
+    margin: 20px 0 14px;
+    text-align: center;
+  }
+  .activateInfo text{
+    display: inline-block;
+    padding: 0 40px;
+    border: 1px solid #40a980;
+    border-radius: 4px;
+    line-height: 36px;
+    font-size: 14px;
+    color: #40a980;
+  }
+  .activateTips{
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+  }
+</style>

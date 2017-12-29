@@ -33,7 +33,7 @@
     }
 
     onLoad () {
-      console.log('banner components data', this.banner)
+      // console.log('banner components data', this.banner)
     }
   }
 </script>

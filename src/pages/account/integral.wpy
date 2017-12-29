@@ -63,10 +63,10 @@
   }
   .record-count{
     display: flex;
-    padding: 30rpx 20rpx;
-    border-bottom: 1px solid #e5e5e5;
+    padding: 20px 10px;
+    border-bottom: 1px solid #eee;
     background: #fff;
-    font-size: 28rpx;
+    font-size: 14px;
   }
   .record-count-name{
     flex: 1;
@@ -75,13 +75,13 @@
     font-weight: bold;
   }
   .record-list{
-    font-size: 24rpx;
+    font-size: 12px;
   }
   .record-item{
     display: flex;
     align-items: center;
-    padding: 18rpx 20rpx;
-    border-bottom: 1px solid #e5e5e5;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
     background: #fff;
   }
   .record-item-info{
@@ -89,6 +89,7 @@
   }
   .r-i-i-date{
     color: #999;
+    line-height: 24px;
   }
   .record-item-value{
     color: #f30;

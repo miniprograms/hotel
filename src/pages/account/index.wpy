@@ -96,12 +96,14 @@
 <style>
   .acc-head{
     position: relative;
-    padding: 50rpx 20rpx;
+    padding: 25px 10px;
+    overflow: hidden;
+    box-sizing: border-box;
     background: #27ba69;
   }
   .avatarImage{
-    width: 100rpx;
-    height: 100rpx;
+    width: 50px;
+    height: 50px;
     overflow: hidden;
     border-radius: 50%;
   }
@@ -115,14 +117,14 @@
     color: #fff;
   }
   .nickname{
-    margin-left: 20rpx;
+    margin-left: 10px;
   }
   .nickname-name{
-    margin-bottom: 10rpx;
-    font-size: 28rpx;
+    margin-bottom: 5px;
+    font-size: 14px;
   }
   .nickname-level{
-    font-size: 24rpx;
+    font-size: 12px;
   }
   .acc-server{
     position: absolute;
@@ -130,10 +132,10 @@
     top: 50%;
     transform: translateY(-50%);
     background: #ffb039;
-    font-size: 24rpx;
+    font-size: 12px;
     color: #fff;
-    line-height: 48rpx;
-    padding: 0 6rpx 0 20rpx;
+    line-height: 24px;
+    padding: 0 3px 0 10px;
     border-top-left-radius: 20% 80%;
     border-bottom-left-radius: 20% 80%;
   }
@@ -144,9 +146,9 @@
   .memberPanel,.nonmemberPanel{
     display: flex;
     justify-content: center;
-    padding: 20rpx;
-    margin-bottom: 20rpx;
-    border-bottom: 1px solid #e5e5e5;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
     background: #fff;
   }
   .mP-item{
@@ -154,33 +156,35 @@
     text-align: center;
   }
   .mP-item-num{
-    margin-bottom: 10rpx;
+    line-height: 24px;
     font-weight: bold;
-    font-size: 28rpx;
+    font-size: 14px;
     color: #f30;
   }
   .mP-item-name{
-    font-size: 24rpx;
-    color: #666;
+    line-height: 24px;
+    font-size: 12px;
+    color: #888;
   }
   .orderIndex{
     display: flex;
     justify-content: center;
-    padding: 20rpx;
-    margin-bottom: 20rpx;
-    border-top: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
+    padding: 14px 10px;
+    margin-bottom: 10px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
     background: #fff;
   }
   .orderIndex-item{
     flex: 1;
     text-align: center;
-    font-size: 28rpx;
+    font-size: 14px;
+    color: #353535;
   }
   .orderIcon::before,.payMoneyIcon::before,.hotelIcon::before{
     display: block;
-    margin-bottom: 10rpx;
-    font-size: 50rpx;
+    margin-bottom: 5px;
+    font-size: 25px;
   }
   .orderIcon::before{
     content: "\e89a";
@@ -192,22 +196,22 @@
     content: "\e899";
   }
   .p-list{
-    margin-bottom: 20rpx;
+    margin-bottom: 10px;
     border-top: 1px solid #e5e6e5;
     background: #fff;
   }
   .p-list .zan-cell{
-    font-size: 28rpx;
+    font-size: 14px;
   }
   .p-list .zan-cell__ft{
-    font-size: 24rpx;
+    font-size: 12px;
     color: #999;
   }
 
   .discountIcon::before,.delayIcon::before,.giftIcon::before,.upLevelIcon::before{
     display: block;
-    margin-bottom: 4rpx;
-    font-size: 48rpx;
+    margin-bottom: 2px;
+    font-size: 24px;
   }
   .discountIcon::before{
     content: "\e880";

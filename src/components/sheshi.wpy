@@ -1,0 +1,93 @@
+<template>
+  <view class="s-panel s-panel-ssItems">
+    <view class="s-service {{ serviceAll ? 'panelAll' : '' }}">
+      <view class="p-service-item iconFont naozhongIcon">
+        <text class="p-i-service-name">叫醒服务</text>
+      </view>
+      <view class="p-service-item iconFont tingcheIcon">
+        <text class="p-i-service-name">免费停车</text>
+      </view>
+      <view class="p-service-item iconFont huiyiIcon">
+        <text class="p-i-service-name">会议室</text>
+      </view>
+      <view class="p-service-item iconFont wifiIcon">
+        <text class="p-i-service-name ">免费wifi</text>
+      </view>
+      <view class="p-service-item iconFont jianshenIcon">
+        <text class="p-i-service-name">健身房</text>
+      </view>
+      <view class="p-service-item iconFont jiesongIcon">
+        <text class="p-i-service-name">收费接送服务</text>
+      </view>
+      <view class="p-service-item iconFont canyinIcon">
+        <text class="p-i-service-name">餐厅</text>
+      </view>
+      <view class="p-service-item iconFont xingliIcon">
+        <text class="p-i-service-name">行李寄存</text>
+      </view>
+      <!-- <view class="p-service-item iconFont bujifapiaoIcon">
+        <text class="p-i-service-name">补寄发票</text>
+      </view>
+      <view class="p-service-item iconFont shangpuIcon">
+        <text class="p-i-service-name">店内超市</text>
+      </view> -->
+    </view>
+    <!-- <view class="s-service-more" @tap="showAll">{{ serviceAll ? '收回面板' : '展示全部项目' }}</view> -->
+    <view class="s-service-more" >共8项设施服务</view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class sheshi extends wepy.component {
+    data = {}
+
+  }
+</script>
+
+<style>
+.s-panel-ssItems{
+  position: relative;
+  padding: 10px 10px 15px !important;
+  box-sizing: border-box;
+  background: #fff;
+  font-size: 12px;
+  color: #888;
+  border-bottom: 1px solid #eee;
+}
+.s-service{
+  height: 110px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.panelAll{
+  height: auto;
+}
+.p-service-item{
+  display: inline-block;
+  width: 25%;
+  margin-bottom: 14px;
+  text-align: center;
+  font-size: 12px;
+  color: #353535;
+}
+.p-service-item::before{
+  display: block;
+  font-size: 20px;
+}
+.s-service-more{
+  position: absolute;
+  font-size: 12px;
+  color: #888;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+}
+.p-i-service-name{
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #888;
+  }
+</style>

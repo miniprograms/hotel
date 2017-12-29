@@ -1,0 +1,310 @@
+<template>
+  <view class="container">
+    <view class="detail">
+      <banner :banner.sync="banner"></banner>
+      <view class="detail-date">
+        <chooseDate :type.sync="dataType" :typeWeek.sync="dataTypeWeek"></chooseDate>
+      </view>
+      <view class="gd-block gd-baseInfo">
+        <view class="gd-baseInfo-item" wx:for="{{ goodsDetailData.baseInfo }}" wx:for-item="baseInfoItem" wx:key="baseInfoItem.name">
+          <text class="gd-baseInfo-item-name">{{ baseInfoItem.name }}</text>{{ baseInfoItem.value }}
+        </view>
+      </view>
+      <navigator url="getVip" class="vipSale">
+        <view class="vipSale-left">
+          <view class="iconFont zuanshiIcon"></view>
+          白金卡预订立享8折，可省56元
+        </view>
+        <view class="vipSale-right">
+          立即开通<view class="iconFont rightArrow"></view>
+        </view>
+      </navigator>
+      <view class="gd-roomService">
+        <view class="gd-block-title">{{ goodsDetailData.roomService.name }}</view>
+        <view class="gd-block">
+          <serviceItem></serviceItem>
+        </view>
+      </view>
+
+      <view class="gd-roomTips">
+        <view class="gd-block-title">{{ goodsDetailData.rules.name }}</view>
+        <view class="gd-block">
+          <view class="gd-roomTips-item" wx:for="{{ goodsDetailData.rules.value }}" wx:for-item="rules">
+            <view class="roomTips-name">{{ rules.name }}</view>
+            <view class="roomTips-value">{{ rules.value }}</view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="gd-coupon">
+        <view class="gd-block-title">优惠促销</view>
+        <view class="gd-block" wx:if="{{ goodsDetailData.roomCoupon }}">
+          <view class="gd-coupon-info">
+            <view class="gd-coupon-info-name">{{ goodsDetailData.roomCoupon.name }}</view>
+            <view class="gd-coupon-info-desc">{{ goodsDetailData.roomCoupon.desc }}</view>
+          </view>
+          <view class="gd-coupon-button" @tap="getCoupon">
+            {{ goodsDetailData.roomCoupon.status ? '领取' : '已领取' }}
+          </view>
+        </view>
+      </view>
+      
+      <view class="gd-pay">
+        <view class="gd-pay-info" @tap="showpricePopup">
+          <text class="gd-price-num">¥{{ goodsDetailData.sellPrice }} </text><text class="priceSaleTips iconFont upArrow">价格说明</text>
+        </view>
+        <view class="gd-pay-action {{ goodsDetailData.status == 0 ? 'disable' : 'enable' }}" @tap="goPay">
+          {{ goodsDetailData.status == 0 ? '暂不可定' : '立即预定' }}
+        </view>
+      </view>
+    </view>
+  </view>
+  <pricePopup></pricePopup>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import banner from '../components/banner'
+  import chooseDate from '../components/chooseDate'
+  import serviceItem from '../components/sheshi'
+  import pricePopup from '../components/pricePopup'
+  import { apiGoodsDetail } from '../api/detail.js'
+
+  export default class detail extends wepy.page {
+    data = {
+      dataType: false,
+      dataTypeWeek: false,
+      banner: [],
+      goodsDetailData: {}
+    }
+    components = {
+      banner: banner,
+      chooseDate: chooseDate,
+      serviceItem: serviceItem,
+      pricePopup: pricePopup
+    }
+    methods = {
+      goPay: function() {
+        wx.navigateTo({
+          url: 'order'
+        })
+      },
+      getCoupon() {
+        this.goodsDetailData.roomCoupon.status = !this.goodsDetailData.roomCoupon.status
+      },
+      showpricePopup: function() {
+        var priceDetail = this.goodsDetailData.rooms
+        console.log(this.goodsDetailData)
+        this.$invoke('pricePopup', 'priceDetail', priceDetail)
+      }
+    }
+    onLoad(options) {
+      // if (options.product) {
+        // var pid= Number(options.product)
+        this.goodsDetailData = apiGoodsDetail[0]
+        this.banner = apiGoodsDetail[0].banner
+        console.log(apiGoodsDetail[0].banner)
+      // }
+    }
+    onShow() {
+      this.$invoke('chooseDate', 'settingDate', {})
+    }
+  }
+</script>
+
+<style>
+.detail{
+  padding-bottom: 50px;
+}
+.gd-title{
+  padding: 10px 0;
+  text-align: center;
+  line-height: 20px;
+}
+.gd-pic{
+  width: 100%;
+  max-height: 160px;
+  box-sizing: border-box;
+}
+.gd-pic image{
+  width: 100%;
+  height: 160px;
+}
+.detail-date{
+  background: #fff;
+}
+.detail-date .cd-date-in{
+  padding-left: 10px;
+  text-align: left;
+}
+.detail-date .cd-date-out{
+  padding-right: 10px;
+  text-align: right;
+}
+.gd-block{
+  padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+}
+.gd-block-title{
+  padding: 0 10px;
+  line-height: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+}
+.gd-baseInfo{
+  display: flex;
+  flex-flow: wrap;
+}
+.gd-baseInfo-item{
+  width: 50%;
+  box-sizing: border-box;
+  line-height: 24px;
+  font-size: 12px;
+  color: #353535;
+}
+.gd-baseInfo-item-name{
+  display: inline-block;
+  margin-right: 10px;
+  color: #b8b8b8;
+}
+.gd-roomService{
+  font-size: 12px;
+}
+.gd-roomService-name{
+  line-height: 24px;
+}
+.gd-roomService-item{
+  color: #b8b8b8;
+}
+.gd-roomService .s-panel-ssItems{
+  padding-left: 0!important;
+  padding-right: 0!important;
+  border-bottom: none;
+}
+.gd-roomService .s-service{
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+.gd-roomService .s-panel-ssItems .p-service-item{
+  width: 20%;
+}
+.gd-coupon .gd-block{
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+.gd-coupon-info::before{
+  content: "券";
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1px 2px;
+  background: red;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+}
+.gd-coupon-info{
+  position: relative;
+  flex: 1;
+  padding-left: 20px; 
+}
+.gd-coupon-info-desc{
+  margin-top: 4px;
+  color: #999;
+}
+.gd-coupon-button{
+  display: inline-block;
+  padding: 5px 12px;
+  color: #f30;
+}
+.gd-pay{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+}
+.gd-pay-info,.gd-pay-action{
+  flex: 1;
+  text-align: center;
+  line-height: 45px;
+}
+.gd-pay-info{
+  padding: 0 5px 0 10px;
+  box-sizing: border-box;
+  text-align: left;
+  background: #f9f9f9;
+}
+.gd-price-num{
+  color: #f30;
+}
+.priceSaleTips{
+  font-size: 12px;
+  color: #b8b8b8;
+}
+.gd-pay-action{
+  background: #f30;
+  color: #fff;
+}
+.gd-pay .disable{
+  background: #dedede;
+}
+.gd-close::after{
+  content: "\e871";
+  position: absolute;
+  right: 10px;
+  width: 40px;
+  height: 45px;
+  text-align: center;
+  line-height: 40px;
+}
+.gd-roomTips-item{
+  display: flex;
+  margin-bottom: 4px;
+  font-size: 12px;
+  line-height: 20px;
+}
+.roomTips-name{
+  text-align: justify;
+  width: 60px;
+  color: #fb824b;
+}
+.roomTips-value{
+  flex: 1;
+  color: #888;
+}
+.vipSale{
+  display: flex;
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  background: #525150;
+  font-size: 12px;
+  line-height: 24px;
+}
+.vipSale-left{
+  flex: 1;
+  color: #fff;
+}
+.vipSale-right{
+  color: #ffe973;
+}
+.vipSale-right .rightArrow{
+  display: inline-block;
+  line-height: 12px;
+}
+.zuanshiIcon{
+  display: inline-block;
+}
+.zuanshiIcon::before{
+  content: "\e880";
+  font-size: 14px;
+  color: #ffe973;
+}
+</style>

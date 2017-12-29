@@ -50,46 +50,47 @@
 
 <style>
   .vipImage{
-    padding: 40rpx 0;
-    margin-bottom: 20rpx;
+    padding: 20px 0;
+    margin-bottom: 10px;
     background: #fff;
   }
   .bigPic{
     width: 80%;
-    height: 300rpx;
+    height: 150px;
     margin: 0 auto;
     background: #6146ff;
-    border-radius: 10rpx;
+    border-radius: 5px;
   }
   .myvip{
     background: #fff;
   }
   .myvip .zan-cell .zan-cell__bd{
-    font-size: 28rpx;
+    font-size: 14px;
   }
   .myvip .zan-cell .zan-cell__ft{
-    font-size: 24rpx;
-    color: #999;
+    font-size: 12px;
+    color: #888;
   }
   .myvip-info{
     display: flex;
     justify-content: center;
-    margin-top: 40rpx;
+    margin-top: 20px;
   }
   .myvip-item{
     flex: 1;
     text-align: center;
-    border-right: 1px solid #e5e5e5;
+    border-right: 1px solid #eee;
   }
   .myvip-item:last-child{
     border: none;
   }
   .myvip-name{
-    font-size: 24rpx;
-    color: #666;
+    font-size: 12px;
+    color: #888;
+    line-height: 24px;
   }
   .myvip-value{
-    font-size: 32rpx;
+    font-size: 16px;
     color: #27ba69;
   }
 </style>

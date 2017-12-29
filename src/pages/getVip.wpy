@@ -1,41 +1,107 @@
 <template>
   <view class="container">
     <view class="getVip">
+      
       <view class="vipImage">
-        <view class="bigPic">
-          <view class="vipCard-Name">
-            <view class="vipCard-pname">凯夫特酒店</view>黄金会员
-          </view>
-          <view class="vipCard-num">No: 0159 6013 1327</view>
-        </view>
-      </view>
-      <view class="getVipBtn">
-        <text>立即领取,享房费88折</text>
+        <swiper current="{{ vipLevel }}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" indicator-color="{{ indicatorColor }}" indicator-active-color="{{ indicatorActiveColor }}">
+          <block>
+            <swiper-item>
+              <view class="bigPic" style="background-image: url({{ urlCardLevel1 }})">
+                
+                <view class="vipCard-Name">
+                  <view class="vipCardLogo">
+                    <image src="https://s1.ax1x.com/2017/12/28/zFx4f.png"></image>
+                  </view>
+                  <view class="vipCard-pname">凯夫特酒店<text style="color:#fff; opacity: .7">钻石会员</text></view>
+                </view>
+                <view class="vipCard-num">No: 0159 6013 1327</view>
+              </view>
+            </swiper-item>
+            <swiper-item>
+              <view class="bigPic" style="background-image: url({{ urlCardLevel2 }})">
+                <view class="vipCard-Name">
+                  <view class="vipCardLogo">
+                    <image src="https://s1.ax1x.com/2017/12/28/zFx4f.png"></image>
+                  </view>
+                  <view class="vipCard-pname">凯夫特酒店<text style="color:#fff; opacity: .7">黄金会员</text></view>
+                </view>
+                <view class="vipCard-num">No: 0159 6013 1327</view>
+              </view>
+            </swiper-item>
+            <swiper-item>
+              <view class="bigPic" style="background-image: url({{ urlCardLevel3 }})">
+                <view class="vipCard-Name">
+                  <view class="vipCardLogo">
+                    <image src="https://s1.ax1x.com/2017/12/28/zFx4f.png"></image>
+                  </view>
+                  <view class="vipCard-pname">凯夫特酒店<text>白银会员</text></view>
+                </view>
+                <view class="vipCard-num">No: 0159 6013 1327</view>
+              </view>
+            </swiper-item>
+          </block>
+        </swiper>
       </view>
 
       <view class="getVipInfo">
         <view class="getVipTab">
-          <view class="vipType selected">白金会员</view>
-          <view class="vipType">黄金会员</view>
-          <view class="vipType">白银会员</view>
-        </view>
-        <view class="getVipPanel">
-          <view class="vipPanel">
-            <view class="textBlock">
-              1  光速入住特权：免登记，到店报手机号码即可入住
-            </view>
-            <view class="textBlock">
-              2  房费88折特权：白金会员专享88折优惠，在88折优     惠基础上可参与酒店不定时促销优惠。
-            </view>
-            <view class="textBlock">
-              3  延迟退房特权：可免费延迟退房至16：00
-            </view>
-            <view class="textBlock">
-              4  免押金特权：预定酒店免押金
-            </view>
-            <view class="condition">储值2000元即可成为白金会员</view>
+          <view class="vipType {{ vipLevel === 0 ? 'selected' : '' }}" @tap="changeVipType(0)">
+            <view class="vipType-name">钻石会员</view> 储值2000元
+          </view>
+          <view class="vipType {{ vipLevel === 1 ? 'selected' : '' }}" @tap="changeVipType(1)">
+            <view class="vipType-name">黄金会员</view>储值1000元
+          </view>
+          <view class="vipType {{ vipLevel === 2 ? 'selected' : '' }}" @tap="changeVipType(2)">
+            <view class="vipType-name">白银会员</view>储值500元
           </view>
         </view>
+        <view class="getVipPanel">
+          <view class="vipPanel" hidden="{{ vipLevel !== 0 }}">
+            <view class="textBlock iconFont">
+              光速入住特权：免登记，到店报手机号码即可入住
+            </view>
+            <view class="textBlock iconFont">
+              房费88折特权：钻石会员专享8折优惠，在8折优     惠基础上可参与酒店不定时促销优惠。
+            </view>
+            <view class="textBlock iconFont">
+              延迟退房特权：可免费延迟退房至16：00
+            </view>
+            <view class="textBlock iconFont">
+              免押金特权：预定酒店免押金
+            </view>
+          </view>
+          <view class="vipPanel" hidden="{{ vipLevel !== 1 }}">
+            <view class="textBlock iconFont">
+              光速入住特权：免登记，到店报手机号码即可入住
+            </view>
+            <view class="textBlock iconFont">
+              房费85折特权：黄金会员专享85折优惠，在85折优     惠基础上可参与酒店不定时促销优惠。
+            </view>
+            <view class="textBlock iconFont">
+              延迟退房特权：可免费延迟退房至16：00
+            </view>
+            <view class="textBlock iconFont">
+              免押金特权：预定酒店免押金
+            </view>
+          </view>
+          <view class="vipPanel" hidden="{{ vipLevel !== 2 }}">
+            <view class="textBlock iconFont">
+              光速入住特权：免登记，到店报手机号码即可入住
+            </view>
+            <view class="textBlock iconFont">
+              房费9折特权：白银会员专享9折优惠，在9折优     惠基础上可参与酒店不定时促销优惠。
+            </view>
+            <view class="textBlock iconFont">
+              延迟退房特权：可免费延迟退房至16：00
+            </view>
+            <view class="textBlock iconFont">
+              免押金特权：预定酒店免押金
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="vipCard-Pay-button">
+        立即充值，享会员折扣特权
       </view>
     </view>
   </view>
@@ -45,82 +111,126 @@
   import wepy from 'wepy'
 
   export default class getVip extends wepy.page {
-
+    data = {
+      urlCardLevel1: 'https://s1.ax1x.com/2017/12/28/zi3QJ.png',
+      urlCardLevel2: 'https://s1.ax1x.com/2017/12/28/ziGLR.png',
+      urlCardLevel3: 'https://s1.ax1x.com/2017/12/28/zi8y9.png',
+      indicatorDots: false,
+      autoplay: false,
+      vipLevel: 0
+    }
+    methods = {
+      changeVipType: function(num) {
+        this.vipLevel = Number(num)
+      }
+    }
   }
 </script>
 
 <style>
+  .getVip{
+    padding-bottom: 60px;
+  }
   .vipImage{
-    margin: 40rpx 0;
+    padding: 30px 0;
+    background: #fff;
   }
   .bigPic{
     position: relative;
     width: 80%;
-    height: 300rpx;
-    padding: 20rpx;
+    height: 150px;
+    padding: 10px;
     margin: 0 auto;
     box-sizing: border-box;
-    background: #6146ff;
-    border-radius: 10rpx;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-radius: 5px;
   }
   .vipCard-Name{
-    font-size: 24rpx;
+    display: flex;
+    line-height: 24px;
+    font-size: 12px;
     color: #cfb3fc;
   }
+  .vipCardLogo image{
+    width: 40px;
+    height: 40px;
+    margin-right: 6px;
+    border-radius: 50%;
+  }
   .vipCard-pname{
-    font-size: 28rpx;
+    font-size: 14px;
     color: #fff;
+  }
+  .vipCard-pname text{
+    display: block;
+    font-size: 12px;
+    color: #cfb3fc;
   }
   .vipCard-num{
-    margin-top: 120rpx;
+    margin-top: 60px;
     color: #fff;
-  }
-  .getVipBtn{
-    margin-bottom: 60rpx;
-    text-align: center;
-    color: #40a980;
-  }
-  .getVipBtn text{
-    display: inline-block;
-    padding: 16rpx 20rpx;
-    line-height: 40rpx;
-    border: 1px solid #40a980;
-    border-radius: 3px;
-    font-size: 24rpx;
   }
   .getVipInfo{
     background: #fff;
-    padding-top: 60rpx;
-    border-top: 1px solid #e5e5e5;
+    padding: 30px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
   }
   .getVipTab{
     display: flex;
-    margin-bottom: 40rpx;
+    margin-bottom: 20px;
     justify-content: center;
   }
   .vipType{
-    margin: 0 20rpx;
-    padding: 0 20rpx;
+    margin: 0 10px;
+    padding: 4px 20px;
     border: 1px solid #5c525c;
     border-radius: 2px;
-    font-size: 24rpx;
-    line-height: 60rpx;
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    line-height: 20px;
+  }
+  .vipType-name{
+    font-size: 14px;
+    color: #353535;
   }
   .getVipTab .selected{
     border-color: #f30;
+    color: #ff8c8c;
+  }
+  .getVipTab .selected .vipType-name{
     color: #f30;
   }
   .vipPanel{
-    padding: 0 32rpx;
+    padding: 0 16px;
     color: #999;
   }
   .textBlock{
-    margin-bottom: 20rpx; 
-    font-size: 24rpx;
-    line-height: 36rpx;
+    padding-left: 14px;
+    margin-bottom: 10px; 
+    font-size: 12px;
+    line-height: 18px;
   }
-  .condition{
-    font-size: 24rpx;
-    color: #40a980;
+  .textBlock::before{
+    content: "\e88d";
+    margin-left: -14px;
+    font-weight: bold;
+    font-size: 10px;
+    color: #ff8200;
+  }
+  .vipCard-Pay-button{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    height: 45px;
+    text-align: center;
+    line-height: 45px;
+    font-size: 14px;
+    color: #ffb966;
+    background: #f00;
   }
 </style>

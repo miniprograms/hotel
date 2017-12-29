@@ -2,20 +2,22 @@
   <view class="container">
     <view class="assistant">
       <!-- ass-head 有订单已经入住 -->
-      <view class="ass-head" wx:if="{{ orderStatus }}">
-        <view class="ass-head-t">
-          <view class="ass-name">安泰凯芙特酒店(主题大床房)</view>
-          <view class="ass-roomNum">{{ orderCheckStatus ? '房间号2248' : '暂未入住' }}</view>
-        </view>
-        <view class="ass-head-desc">
-          <view class="ass-in">
-            <view class="ass-d-t">入住</view>
-            <view class="ass-d-date">12 / 28</view>
+      <view class="ass-order" wx:if="{{ orderStatus }}">
+        <view class="ass-head">
+          <view class="ass-head-t">
+            <view class="ass-name">安泰凯芙特酒店(主题大床房)</view>
+            <view class="ass-roomNum">{{ orderCheckStatus ? '房间号2248' : '暂未入住' }}</view>
           </view>
-          <view class="ass-num">住1晚</view>
-          <view class="ass-out">
-            <view class="ass-d-t">离店</view>
-            <view class="ass-d-date">12 / 29</view>
+          <view class="ass-head-desc">
+            <view class="ass-in">
+              <view class="ass-d-t">入住</view>
+              <view class="ass-d-date">12 / 28</view>
+            </view>
+            <view class="ass-num"><text>住1晚</text></view>
+            <view class="ass-out">
+              <view class="ass-d-t">离店</view>
+              <view class="ass-d-date">12 / 29</view>
+            </view>
           </view>
         </view>
       </view>
@@ -28,19 +30,21 @@
       </view>
 
       <view class="ass-content">
-        <view class="ass-c-tips">{{ orderStatus ? '尊敬的VIP，如有需要欢迎使用如下服务' : '预定房间入住期间，可享受如下快捷服务' }}</view>
-        <view clas="ass-c-service">
-          <view class="ass-c-s-item" @tap="wifi">
-            <text class="iconFont wifiIcon"></text>wifi连接
-          </view>
-          <view class="ass-c-s-item">
-            <text class="iconFont serviceIcon"></text>呼叫前台
-          </view>
-          <view class="ass-c-s-item">
-            <text class="iconFont invoiceIcon"></text>开发票
-          </view>
-          <view class="ass-c-s-item">
-            <text class="iconFont clockIcon"></text>叫醒服务
+        <view class="checkinSuccess ">
+          <view class="ass-c-tips">{{ orderStatus ? '尊敬的VIP，如有需要欢迎使用如下服务' : '预定房间入住期间，可享受如下快捷服务' }}</view>
+          <view clas="ass-c-service">
+            <view class="ass-c-s-item" @tap="wifi">
+              <text class="iconFont wifiIcon"></text>wifi连接
+            </view>
+            <view class="ass-c-s-item">
+              <text class="iconFont serviceIcon"></text>呼叫前台
+            </view>
+            <view class="ass-c-s-item">
+              <text class="iconFont invoiceIcon"></text>开发票
+            </view>
+            <view class="ass-c-s-item">
+              <text class="iconFont clockIcon"></text>叫醒服务
+            </view>
           </view>
         </view>
         <!-- 有订单暂未入住提示 -->
@@ -98,41 +102,48 @@
 </script>
 
 <style>
+  .ass-order{
+    padding: 25px 20px 0;
+    background: url(https://pro.modao.cc/uploads3/images/1545/15456353/raw_1513401758.png) no-repeat;
+    background-size: 100% 100%;
+  }
   .ass-head{
-    margin: 40rpx 40rpx 0;
-    padding: 10rpx 0;
+    padding: 5px 0;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background: #ac49ff;
+
   }
   .ass-noOrder{
-    margin: 0 40rpx 0;
-    padding: 40rpx 0 20rpx;
+    padding: 25px 15px;
     text-align: center;
-    font-size: 24rpx;
+    font-size: 12px;
+    background: url(https://pro.modao.cc/uploads3/images/1545/15456353/raw_1513401758.png) no-repeat;
+    background-size: 100% 100%;
   }
   .noOrder-name{
-    margin-bottom: 20rpx;
-    font-size: 28rpx;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
   }
   .noOrder-desc{
-    margin-bottom: 40rpx;
-    color: #999;
+    margin-bottom: 20px;
+    color: #888;
   }
   .noOrder-button{
     display: inline-block;
-    padding: 0 40rpx;
+    padding: 0 20px;
     border-radius: 20% / 80%;
     background: #f30;
     color: #fff;
-    line-height: 48rpx;
+    line-height: 24px;
   }
   .ass-head-t{
     display: flex;
-    padding: 0 20rpx 6rpx;
-    border-bottom: 1px solid #8336ff;
-    line-height: 40rpx;
-    font-size: 24rpx;
+    padding: 0 10px 3px;
+    border-bottom: 1px dashed #8336ff;
+    line-height: 20px;
+    font-size: 12px;
     color: #d7bfff;
   }
   .ass-name{
@@ -140,7 +151,7 @@
   }
   .ass-head-desc{
     display: flex;
-    padding: 40rpx 0;
+    padding: 20px 0;
     justify-content: center;
     align-items: center;
     color: #fff;
@@ -150,33 +161,36 @@
     text-align: center;
   }
   .ass-d-t{
-    font-size: 24rpx;
+    font-size: 12px;
+    line-height: 24px;
   }
   .ass-d-date{
     font-weight: bold;
-    font-size: 36rpx;
+    font-size: 18px;
   }
   .ass-num{
     flex: 1;
-    padding: 4rpx 0;
-    border-radius: 20% / 80%;
-    background: rgba(87,0,156,.2);
-    font-size: 24rpx;
-    color: #cb9afc;
     text-align: center;
+  }
+  .ass-num text{
+    padding: 2px 8px;
+    border-radius: 30% / 70%;
+    background: rgba(87,0,156,.2);
+    font-size: 12px;
+    color: #cb9afc;
   }
   .ass-content{
     position: relative;
     min-height: 400rpx;
-    padding: 60rpx 0;
-    border-top: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
+    padding: 30px 0;
+    border-top: 1px solid #f9f9f9;
+    border-bottom: 1px solid #eee;
     background: #fff;
   }
   .ass-c-tips{
-    margin: 0 0 70rpx;
+    margin: 0 0 30px;
     text-align: center;
-    font-size: 24rpx;
+    font-size: 12px;
     color: #ffa800;
   }
   .ass-c-service{
@@ -185,17 +199,18 @@
   .ass-c-s-item{
     display: inline-block;
     width: 25%;
-    font-size: 24rpx;
+    font-size: 12px;
     text-align: center;
+    color: #353535;
   }
   .wifiIcon::before,.serviceIcon::before,.invoiceIcon::before,.clockIcon::before{
     display: block;
-    width: 60rpx;
-    height: 60rpx;
-    margin-bottom: 20rpx;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 10px;
     text-align: center;
-    line-height: 60rpx;
-    font-size: 28rpx;
+    line-height: 46px;
+    font-size: 20px;
     border-radius: 50%;
     color: #fff;
   }
@@ -222,21 +237,30 @@
     bottom: 0;
     left: 0;
     z-index: 10;
-    padding: 60rpx 20rpx 20rpx;
-    background: rgba(255,255,255,.9);
-    font-size: 24rpx;
+    padding: 30px 10px 10px;
+    background: rgba(255,255,255,.96);
+    font-weight: bold;
+    font-size: 12px;
   }
   .noCheckinTips-text{
     text-align: center;
-    line-height: 60rpx;
+    line-height: 30px;
     color: #000;
+  }
+  .bgblur{
+    -webkit-filter: blur(15px);
+    -moz-filter: blur(15px);
+    -o-filter: blur(15px);
+    -ms-filter: blur(15px);
+    filter: blur(15px);
   }
   .noCheckinTips-flush{
     position: absolute;
     right: 0;
-    bottom: 10rpx;
+    bottom: 5px;
     left: 0;
-    color: #f5d3ab;
+    color: #888;
+    font-weight: normal;
     text-align: center;
   }
 </style>

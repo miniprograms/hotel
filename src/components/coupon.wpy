@@ -27,15 +27,15 @@
   .coupon{
     display: flex;
     width: 100%;
-    padding: 20rpx 20rpx 16rpx;
-    margin-bottom: 24rpx;
+    padding: 10px 10px 8px;
+    margin-bottom: 12px;
     box-sizing: border-box;
     align-items: center;
     background: #fff;
   }
   .coupon-pic{
-    width: 122rpx;
-    margin-right: 16rpx;
+    width: 160rpx;
+    margin-right: 8px;
   }
   .coupon-pic image{
    max-width: 100%;
@@ -44,11 +44,15 @@
     flex: 1;
   }
   .coupon-info-title{
+    margin-top: -4px;
+    margin-bottom: 4px;
     color: #353535;
+    line-height: 16px;
+    font-size: 14px;
   }
   .coupon-info-desc{
-    font-size: 24rpx;
-    color: #999;
+    font-size: 12px;
+    color: #888;
   }
   .coupon-button{
     padding: 0 30rpx;

@@ -1,0 +1,277 @@
+<template>
+  <view class="goodsList">
+    <block wx:for="{{ goods }}" wx:for-item="goodsItem" wx:key="{{ goodsItem.id }}">
+
+      <view class="goods-item">
+        <navigator url="detail?product={{ index }}" class="goods-item-info">
+          <view class="goods-item-pic">
+            <image src="{{ goodsItem.imgUrl }}" mode='widthFix'></image>
+          </view>
+          <view class="pos-info">
+            <view class="pos-info-name">{{ goodsItem.name }}</view>
+            <view class="goods-serviceItem">
+              <text class="goods-serviceItem-tag" wx:for="{{ goodsItem.roomService }}" wx:for-item="roomService" wx:key="{{ roomService }}">{{ roomService }}</text>
+            </view>
+            <view class="pos-info-button">查看详情</view>
+          </view>
+        </navigator>
+
+        <view class="goods-item-rooms">
+          <view class="goods-room">
+            <view class="room-name priceTips" @tap="priceDetail({{ index }})">会员价</view>
+            <view class="room-price">¥<text class="room-price-num">{{ goodsItem.rooms[0].price }}</text></view>
+              <view class="room-button {{ goodsItem.status === 0 ? 'disable' : 'enable' }}" @tap="goOrder({{ goodsItem.status }})">{{ goodsItem.status === 0 ? '客满' : '预定' }}</view>  
+          </view>
+        </view>
+      </view>
+
+    </block> 
+  </view>
+  <pricePopup></pricePopup>
+</template>
+<script>
+  import wepy from 'wepy'
+  import pricePopup from '../components/pricePopup'
+  import { apiGoodsDetail } from '../api/detail.js'
+
+  export default class goodsList extends wepy.component {
+    data = {
+      popUpStatus: false,
+      priceDetail: [],
+      goods: [
+        {
+          id: 0,
+          status: 1,
+          imgUrl: 'https://dimg12.c-ctrip.com/images/200n0h000000903n2A137_R_550_412.jpg',
+          name: '主题大床房',
+          roomService: ['35m²', '大床1.8米', '有窗', '含双份早餐'],
+          rooms: [
+            {
+              name: '普通会员',
+              price: '269',
+              discount: '9.8折',
+              level: '0'
+            },
+            {
+              name: '银卡会员',
+              price: '260',
+              discount: '9.0折',
+              level: '1'
+            },
+            {
+              name: '金卡会员',
+              price: '245',
+              discount: '8.5折',
+              level: '2'
+            },
+            {
+              name: '钻石卡会员',
+              price: '230',
+              discount: '8.0折',
+              level: '3'
+            }
+          ]
+        },
+        {
+          id: 1,
+          status: 1,
+          imgUrl: 'https://dimg12.c-ctrip.com/images/200q0g0000007rdve154B_R_550_412.jpg',
+          name: '3D电影房',
+          roomService: ['30m²', '大床1.8米', '部分无窗', '含双份早餐'],
+          rooms: [
+            {
+              name: '普通会员',
+              price: '269',
+              discount: '9.8折',
+              level: '0'
+            },
+            {
+              name: '银卡会员',
+              price: '260',
+              discount: '9.0折',
+              level: '1'
+            },
+            {
+              name: '金卡会员',
+              price: '245',
+              discount: '8.5折',
+              level: '2'
+            },
+            {
+              name: '钻石卡会员',
+              price: '230',
+              discount: '8.0折',
+              level: '3'
+            }
+          ]
+        },
+        {
+          id: 2,
+          status: 0,
+          imgUrl: 'https://dimg12.c-ctrip.com/images/20080h0000009026n4EB8_R_550_412.jpg',
+          name: '时尚双床房',
+          roomService: ['30m²', '单人床1.2米 2张', '含双份早餐'],
+          rooms: [
+            {
+              name: '普通会员',
+              price: '269',
+              discount: '9.8折',
+              level: '0'
+            },
+            {
+              name: '银卡会员',
+              price: '260',
+              discount: '9.0折',
+              level: '1'
+            },
+            {
+              name: '金卡会员',
+              price: '245',
+              discount: '8.5折',
+              level: '2'
+            },
+            {
+              name: '钻石卡会员',
+              price: '230',
+              discount: '8.0折',
+              level: '3'
+            }
+          ]
+        }
+      ]
+    }
+    props = {
+    }
+    events = {
+    }
+    components = {
+      pricePopup: pricePopup
+    }
+    methods = {
+      clickDetail: function(id) {
+        this.$invoke('../goodsDetail', 'goodsDetailToggle', apiGoodsDetail[id])
+        this.$emit('scrollHidden', true)
+      },
+      goOrder: function(status) {
+        if (status === 0) {
+          return false
+        }
+        wx.navigateTo({
+          url: 'order'
+        })
+      },
+      priceDetail: function(index) {
+        var priceDetail = this.goods[index].rooms
+        this.$invoke('./pricePopup', 'priceDetail', priceDetail)
+      }
+    }
+  }
+</script>
+
+<style lang="css">
+  .goodsList{
+    padding: 16px 10px;
+  }
+  .goods-item{
+    margin-bottom: 16px;
+    background: #fff;
+  }
+  .goods-item-info{
+    position: relative;
+    height: 320rpx;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    overflow: hidden;
+  }
+  .goods-item-pic{
+    background: #fff;
+    overflow: hidden;
+  }
+  .goods-item-pic image{
+    width: 100%;
+  }
+  .pos-info{
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    align-items: center;
+    flex-direction: column; 
+    justify-content: center;
+    text-align: center;
+    background: rgba(0, 0, 0, .4)
+  }
+  .pos-info-name{
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+  }
+  .goods-serviceItem{
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #dbdbdb;
+  }
+  .goods-serviceItem .goods-serviceItem-tag:last-child:after{
+    display: none;
+  }
+  .goods-serviceItem-tag::after{
+    content: "|";
+    display: inline-block;
+    padding: 0 12rpx;
+  }
+  .pos-info-button{
+    padding: 0 16px;
+    line-height: 24px;
+    font-size: 12px;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 20% / 80%;
+  }
+  .goods-item-rooms{
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
+  }
+  .goods-room{
+    display: flex;
+    align-items: center;
+    padding: 12px 24rpx;
+    border-bottom: 1px solid #eee;
+    box-sizing: border-box;
+    color: #353535;
+  }
+  .room-name{
+    flex: 3;
+  }
+  .priceTips::after{
+    content: "?";
+    display: inline-block;
+    width: 12px;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-radius: 2px;
+    font-size: 10px;
+    line-height: 12px;
+    border: 1px solid #353535;
+    border-radius: 50%;
+    color: #353535;
+    text-align: center;
+  }
+  .room-price{
+    flex: 1;
+    font-weight: bold;
+    color: #f30;
+  }
+  .room-button{
+    padding: 0 26rpx;
+    line-height: 48rpx;
+    font-size: 24rpx;
+    color: #fff;
+    background: #f30;
+    border-radius: 2px;
+  }
+
+</style>

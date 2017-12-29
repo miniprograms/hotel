@@ -192,7 +192,7 @@
   .o-in-block{
     padding-bottom: 10rpx;
     margin-bottom: 10rpx;
-    border-bottom: 1px dashed #e5e5e5;
+    border-bottom: 1px dashed #eee;
   }
   .o-in-block:last-child{
     border: none;

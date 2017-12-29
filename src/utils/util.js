@@ -1,3 +1,18 @@
+Date.prototype.format = function(format) {
+  var o = {
+    "M+": this.getMonth() + 1, //month
+    "d+": this.getDate(), //day
+    "h+": this.getHours(), //hour
+    "m+": this.getMinutes(), //minute
+    "s+": this.getSeconds(), //second
+    "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+    "S": this.getMilliseconds() //millisecond
+  }
+  if (/(y+)/.test(format)) format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(format)) format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+  return format;
+};
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -15,44 +30,26 @@ const formatNumber = n => {
 }
 
 const getCurrentDate = (offsetDay) => {
-  const date = new Date()
-  if (offsetDay) {
-    date.setDate(date.getDate() + offsetDay)
-  }
+  const date = new Date(offsetDay)
   const weekArray = ['周日', '周一', '周二', '周三', '周四', '周五', '周六',]
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
   const week = date.getDay()
-
-  const result = month + "月" + day + "号 "// + weekArray[week]
+  console.log(typeof (offsetDay))
+  if (typeof (offsetDay) !== 'string') {
+    offsetDay = new Date(offsetDay).format('yyyy-MM-dd')
+  }
+  const result = {
+    y: offsetDay,
+    d: month + "月" + day + "号 ",
+    week: weekArray[week]
+  }
   return result
 }
 
 
-// const formatDate = (format, end) => {
-//   var date = new Date()
-//   if (end) {
-//     if (Object.prototype.toString.apply(end) == '[object Number]' && end > 0) {
-//       date = new Date(+new Date + 3600000 * 24 * end)
-//     }else {
-//       console.error('结束日期格式错误！！')
-//     }
-//   }
-//   var o = {
-//       "M+": date.getMonth() + 1, //month
-//       "d+": date.getDate(), //day
-//       "h+": date.getHours(), //hour
-//       "m+": date.getMinutes(), //minute
-//       "s+": date.getSeconds(), //second
-//       "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
-//       "S": date.getMilliseconds() //millisecond
-//   }
-//   if (/(y+)/.test(format)) format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-//   for (var k in o)
-//       if (new RegExp("(" + k + ")").test(format)) format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
-//   return format;
-// }
+
 module.exports = {
   formatTime: formatTime,
   getCurrentDate: getCurrentDate

@@ -5,22 +5,35 @@
         <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" indicator-color="{{ indicatorColor }}" indicator-active-color="{{ indicatorActiveColor }}" bindchange="bindchange">
           <block>
             <swiper-item>
-              <view class="bigPic">
+              <view class="bigPic" style="background-image: url({{ urlCardLevel2 }})">
                 <view class="vipCard-Name">
-                  <view class="vipCard-pname">凯夫特酒店</view>黄金会员
+                  <view class="vipCardLogo">
+                    <image src="https://s1.ax1x.com/2017/12/28/zFx4f.png"></image>
+                  </view>
+                  <view class="vipCard-pname">凯夫特酒店<text style="color:#fff; opacity: .7">黄金会员</text></view>
                 </view>
                 <view class="vipCard-num">No: 0159 6013 1327</view>
               </view>
             </swiper-item>
             <swiper-item>
-              <view class="bigPic" style="background: #ec4906;">
-                <view class="vipCard-Name"><view class="vipCard-pname">凯夫特酒店</view>白金会员</view>
+              <view class="bigPic" style="background-image: url({{ urlCardLevel3 }})">
+                <view class="vipCard-Name">
+                  <view class="vipCardLogo">
+                    <image src="https://s1.ax1x.com/2017/12/28/zFx4f.png"></image>
+                  </view>
+                  <view class="vipCard-pname">凯夫特酒店<text>白金会员</text></view>
+                </view>
                 <view class="vipCard-num">No: 0159 6013 1327</view>
               </view>
             </swiper-item>
             <swiper-item>
-              <view class="bigPic" style="background: #5c44ff;">
-                <view class="vipCard-Name"><view class="vipCard-pname">凯夫特酒店</view>钻石会员</view>
+              <view class="bigPic" style="background-image: url({{ urlCardLevel1 }})">
+                <view class="vipCard-Name">
+                  <view class="vipCardLogo">
+                    <image src="https://s1.ax1x.com/2017/12/28/zFx4f.png"></image>
+                  </view>
+                  <view class="vipCard-pname">凯夫特酒店<text style="color:#fff; opacity: .7">钻石会员</text></view>
+                </view>
                 <view class="vipCard-num">No: 0159 6013 1327</view>
               </view>
             </swiper-item>
@@ -112,6 +125,9 @@
       navigationBarTitleText: '会员特权'
     }
     data = {
+      urlCardLevel1: 'https://s1.ax1x.com/2017/12/28/zi3QJ.png',
+      urlCardLevel2: 'https://s1.ax1x.com/2017/12/28/ziGLR.png',
+      urlCardLevel3: 'https://s1.ax1x.com/2017/12/28/zi8y9.png',
       indicatorDots: true,
       autoplay: false,
       interval: 5000,
@@ -130,56 +146,71 @@
 
 <style>
   .vipImage{
-    padding: 40rpx 0;
-    margin-bottom: 20rpx;
+    padding: 20px 0;
+    margin-bottom: 10px;
     background: #fff;
   }
   .bigPic{
     position: relative;
     width: 80%;
-    height: 300rpx;
-    padding: 20rpx;
+    height: 150px;
+    padding: 10px;
     margin: 0 auto;
     box-sizing: border-box;
-    background: #6146ff;
-    border-radius: 10rpx;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-radius: 5px;
   }
   .vipCard-Name{
-    font-size: 24rpx;
+    display: flex;
+    font-size: 12px;
     color: #cfb3fc;
+    line-height: 24px;
+  }
+  .vipCardLogo image{
+    width: 40px;
+    height: 40px;
+    margin-right: 6px;
+    border-radius: 50%;
   }
   .vipCard-pname{
-    font-size: 28rpx;
+    font-size: 14px;
     color: #fff;
   }
+  .vipCard-pname text{
+    display: block;
+    font-size: 12px;
+    color: #cfb3fc;
+  }
   .vipCard-num{
-    margin-top: 120rpx;
+    margin-top: 60px;
     color: #fff;
   }
   .policyItem{
-    margin-bottom: 20rpx;
+    padding-bottom: 10px;
     background: #fff;
   }
   .policyItem .zan-cell{
-    font-size: 26rpx;
+    font-size: 14px;
   }
   .policyRules{
+    margin-bottom: 10px;
     background: #fff;
   }
   .policyRules-title{
-    margin-bottom: 20rpx;
+    margin-bottom: 10px;
   }
   .policyRules-item{
-    padding: 10rpx 15px;
+    padding: 5px 15px;
   }
   .policyRules-item .zan-cell__bd{
-    font-size: 28rpx;
+    font-size: 14px;
     color: #b46b27;
   }
-  .policyRules-item .zan-cell__ft{
-    font-size: 24rpx;
-    color: #999;
-  }
+  .policyRules-item .zan-cell__ft,. .zan-cell__ft{
+    font-size: 12px;
+    color: #888;
+  } 
   .policyRules-item::after{
     display: none;
   }

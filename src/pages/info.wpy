@@ -10,13 +10,19 @@
       </view>
       <view class="tapPanel" hidden="{{ showId !== 0 }}">
         <view class="info-panel">
-          <view class="info-logo">logo</view>
-          <view class="info-desc">
+          <view class="info-panel-image">
+            <image mode="widthFix" src="https://dimg13.c-ctrip.com/images/200v080000003iiah2D4C_R_550_412.jpg"></image>
+            <view class="info-panel-image-popup">
+              <view class="info-logo">logo</view>
+              <view class="info-p-name">安泰凯芙特酒店</view>
+            </view>
+          </view>
+          <view class="info-desc {{ infoDesc ? 'infoDescShowall' : ''}}">
               安泰凯芙特酒店（Ultra Comfort Hotel),店如其名，是一家超越精品的极致舒适型酒店。酒店位于中牟新城核心地带----商都大道与牟州街交叉口,紧邻...
-              <view class="info-desc-more">查看全部</view>
+              <view class="info-desc-more" @tap="infoDescShowall">{{ infoDesc ? '收回' : '查看全部' }}</view>
           </view>
         </view>
-        <view class="scrollPanel">
+        <view class="scrollPanel info-desc-panel">
           <view class="s-panel">
             <view class="p-info-item">
               <text class="p-i-item-name">装修时间：</text>2015年
@@ -64,41 +70,7 @@
           </view>
         </view>
         <view class="scrollPanel">
-          <view class="s-panel s-panel-ssItems">
-            <view class="s-service {{ serviceAll ? 'panelAll' : '' }}">
-              <view class="p-service-item iconFont naozhongIcon">
-                <text class="p-i-service-name">叫醒服务</text>
-              </view>
-              <view class="p-service-item iconFont tingcheIcon">
-                <text class="p-i-service-name">免费停车</text>
-              </view>
-              <view class="p-service-item iconFont huiyiIcon">
-                <text class="p-i-service-name">会议室</text>
-              </view>
-              <view class="p-service-item iconFont wifiIcon">
-                <text class="p-i-service-name ">免费wifi</text>
-              </view>
-              <view class="p-service-item iconFont jianshenIcon">
-                <text class="p-i-service-name">健身房</text>
-              </view>
-              <view class="p-service-item iconFont jiesongIcon">
-                <text class="p-i-service-name">收费接送服务</text>
-              </view>
-              <view class="p-service-item iconFont canyinIcon">
-                <text class="p-i-service-name">餐厅</text>
-              </view>
-              <view class="p-service-item iconFont xingliIcon">
-                <text class="p-i-service-name">行李寄存</text>
-              </view>
-              <view class="p-service-item iconFont bujifapiaoIcon">
-                <text class="p-i-service-name">补寄发票</text>
-              </view>
-              <view class="p-service-item iconFont shangpuIcon">
-                <text class="p-i-service-name">店内超市</text>
-              </view>
-            </view>
-            <view class="s-service-more" @tap="showAll">{{ serviceAll ? '收回面板' : '展示全部项目' }}</view>
-          </view>
+          <serviceItem></serviceItem>
         </view>
       </view>
       
@@ -111,7 +83,7 @@
             <view class="ip-tag {{ selected === 'yule' ? 'selected' : ''}}" @tap="tabPic('yule')">娱乐设施(2)</view>
           </view>
           <view class="ip-list">
-            <view class="ip-list-item" wx:for="{{ showPic.items }}">
+            <view class="ip-list-item" wx:for="{{ showPic.items }}" @tap="imagePreView({{ showPic.items }}, {{ item }})">
               <view class="ip-list-item-name">{{ showPic.name }}</view>
               <image mode="widthFix" src="{{ item }}"></image>
             </view>
@@ -119,7 +91,7 @@
         </view>
       </view>
       
-      <view class="tapPanel" hidden="{{ showId !== 3 }}">
+      <view class="tapPanel tabPanelPolicy" hidden="{{ showId !== 3 }}">
         <view class="scrollPanel">
           
           <view class="s-panel">
@@ -154,10 +126,12 @@
 
 <script>
   import wepy from 'wepy'
+  import serviceItem from '../components/sheshi'
 
   export default class info extends wepy.page {
     data = {
       showId: 0,
+      infoDesc: false,
       serviceAll: false,
       showPic: {},
       selected: 'waiguan',
@@ -194,6 +168,9 @@
         }
       }
     }
+    components = {
+      serviceItem: serviceItem
+    }
     methods = {
       showAll: function() {
         this.serviceAll = !this.serviceAll
@@ -205,6 +182,15 @@
         console.log(this.pics[type])
         this.selected = type
         this.showPic = this.pics[type]
+      },
+      infoDescShowall: function() {
+        this.infoDesc = !this.infoDesc
+      },
+      imagePreView: function(urls, item) {
+        wx.previewImage({
+          current: item, // 当前显示图片的http链接
+          urls: urls // 需要预览的图片http链接列表
+        })
       }
     }
     onLoad(options) {
@@ -220,38 +206,66 @@
   .info-tab{
     display: flex;
     background: #fff;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #eee;
   }
   .info-tab-item{
     flex: 1;
     text-align: center;
+    font-size: 14px;
+    color: #353535;
   }
   .info-tab-item text{
     display: inline-block;
     line-height: 80rpx;
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
   }
   .info-tab .selected{
     color: #f30;
   }
   .info-tab .selected text{
-    border-bottom: 1px solid #f30;
+    border-color: #f30;
   }
   .info-panel{
-    padding: 60rpx 0 20rpx;
+    padding: 15px 0 14px;
+    border-bottom: 1px solid #eee;
     background: #fff;
   }
-  .info-pic{
-    width: 100%;
-    height: 320rpx;
+  .info-panel-image{
+    position: relative;
+    height: 150px;
+    margin: 0 15px 15px;
+    border-radius: 4px;
+    overflow: hidden;
   }
-  .info-pic image{
+  .info-panel-image image{
     width: 100%;
-    height: 320rpx;
+    min-height: 150px;
+  }
+  .info-panel-image-popup{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: rgba(0,0,0,.4);
+  }
+  .info-p-name{
+    font-size: 14px;
+    color: #fff;
+  }
+  .info-desc-panel{
+    padding-bottom: 10px;
+    background: #fff;
   }
   .info-logo{
     width: 100rpx;
     height: 100rpx;
-    margin: 0 auto 50rpx;
+    margin: 0 0 20px;
     line-height: 100rpx;
     background: #259b24;
     color: #fff;
@@ -260,68 +274,72 @@
   }
   .info-desc{
     position: relative;
-    height: 120rpx;
-    padding: 0 20rpx;
+    height: 60px;
+    padding: 0 10px;
     overflow: hidden;
-    font-size: 24rpx;
-    color: #666;
-    line-height: 40rpx;
+    font-size: 12px;
+    color: #888;
+    line-height: 1.5;
+  }
+  .infoDescShowall{
+    height: auto;
   }
   .info-desc-more{
     position: absolute;
-    right: 20rpx;
-    bottom: 0;
+    right: 10px;
+    bottom: -2px;
     color: #f30;
   }
   .info-address{
     display: flex;
-    margin-bottom: 20rpx;
-    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 10px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
     background: #fff;
-    color: #999;
+    color: #888;
   }
   .o-p-fn-map,.o-p-fn-tel{
     flex: 1;
-    padding: 10rpx 0;
     text-align: center;
-    line-height: 72rpx;
+    line-height: 45px;
+    font-size: 14px;
   }
   .o-p-fn-map::before{
     content: "\e8e6";
     vertical-align: middle;
-    margin-right: 10rpx;
-    font-size: 30rpx;
+    margin-right: 5px;
+    font-size: 16px;
   }
   .o-p-fn-tel::before{
     content: "\e896";
     display: inline-block;
-    width: 30rpx;
-    height: 30rpx;
+    width: 15px;
+    height: 15px;
     text-align: center;
-    margin-right: 10rpx;
+    margin-right: 5px;
     margin-top: -2px;
-    padding: 2rpx;
+    padding: 1px;
     vertical-align: middle;
     background: #27ba69;
     border-radius: 50%;
-    line-height: 30rpx;
-    font-size: 24rpx;
+    line-height: 15px;
+    font-size: 12px;
     color: #fff;
   }
   .fitness{
-    padding: 30rpx;
-    border-top: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
     background: #fff;
   }
   .fitness-box{
     position: relative;
     width: 100%;
-    min-height: 320rpx;
-    border-radius: 4px;
+    min-height: 160px;
     overflow: hidden;
     background: url('https://dimg13.c-ctrip.com/images/200v080000003iiah2D4C_R_550_412.jpg') no-repeat;
     background-size: cover;
+    border-top-left-radius:4px;
+    border-top-right-radius:4px;
   }
   .fitness-tips{
     display: flex;
@@ -336,40 +354,40 @@
     color: #fff;
   }
   .fitness-name{
-    margin-top: 48rpx;
-    margin-bottom: 8rpx;
-    font-size: 32rpx;
-    line-height: 48rpx;
+    margin-top: 24px;
+    margin-bottom: 4px;
+    font-size: 16px;
+    line-height: 24px;
   }
   .fitness-date{
-    margin-bottom: 40rpx;
-    font-size: 28rpx;
-    line-height: 40rpx;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 20px;
   }
   .fitness-tag{
     display: flex;
     justify-content: center;
   }
   .fitness-tag text{
-    padding: 0 18rpx;
-    margin-right: 4rpx;
-    font-size: 24rpx;
+    padding: 0 9px;
+    margin-right: 8px;
+    font-size: 12px;
     border: 1px solid #fff;
-    line-height: 42rpx;
-    border-radius: 30% / 70%;
+    line-height: 22px;
+    border-radius: 10px / 12px;
   }
   .s-name{
-    padding: 0 20rpx;
-    line-height: 80rpx;
-    font-size: 28rpx;
+    padding: 0 10px;
+    line-height: 40px;
+    font-size: 14px;
   }
   .s-panel{
     position: relative;
-    padding: 20rpx 20rpx 0;
+    padding: 10px 10px 0;
     box-sizing: border-box;
     background: #fff;
-    font-size: 24rpx;
-    color: #999;
+    font-size: 12px;
+    color: #888;
   }
   .s-flex{
     display: flex;
@@ -377,73 +395,44 @@
   .p-info-item{
     display: inline-block;
     width: 50%;
-    line-height: 52rpx;
+    line-height: 26px;
   }
   .p-info-item:last-child{
     width: 100%;
   }
-  .s-panel-ssItems{
-    padding-bottom: 30rpx;
-    border-bottom: 1px solid #e5e5e5;
-  }
-  .s-service{
-    height: 240rpx;
-    margin-bottom: 40rpx;
-    overflow: hidden;
-  }
-  .panelAll{
-    height: auto;
-  }
-  .p-service-item{
-    display: inline-block;
-    width: 25%;
-    margin-bottom: 20rpx;
-    text-align: center;
-  }
-  .p-service-item::before{
-    display: block;
-    font-size: 56rpx;
-  }
-  .s-service-more{
-    position: absolute;
-    font-size: 24rpx;
-    color: #999;
-    left: 50%;
-    bottom: 20rpx;
-    transform: translateX(-50%);
-  }
   .p-policy-item{
-    color: #666;
-    line-height: 52rpx;
+    color: #888;
+    line-height: 26px;
   }
   .s-policy-name{
-    font-size: 24rpx;
-    color: #000;
-    line-height: 52rpx;
+    font-size: 14px;
+    color: #353535;
+    line-height: 26px;
   }
   .info-tips{
-    padding: 20rpx;
-    font-size: 24rpx;
-    color: #999;
+    padding: 10px;
+    font-size: 14px;
+    color: #888;
   }
   .infoPic{
     background: #fff;
   }
   .infoPic-tags{
     display: flex;
-    padding: 20rpx 10rpx;
+    padding: 10px 4%;
   }
   .infoPic-tags .selected{
     border-color: #ff9800;
     color: #ff9800;
   }
   .ip-tag{
-    margin-right: 6rpx;
-    padding: 0 14rpx;
+    margin-right: 8px;
+    padding: 0 7px;
     border: 1px solid #888;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 12px;
     color: #888;
+    line-height: 26px;
   }
   .ip-list{
     display: flex;
@@ -454,19 +443,34 @@
   .ip-list-item{
     position: relative;
     width: 48%;
+    margin-bottom: 10px;
+    font-size: 0;
   }
   .ip-list-item-name{
     position: absolute;
+    /*top: 0;*/
     left: 0;
     right: 0;
     bottom: 0;
-    line-height: 60rpx;
+    line-height: 30px;
     text-align: center;
-    font-size: 24rpx;
+    font-size: 12px;
     color: #fff;
-    background: rgba(0,0,0,.3);
+    background: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 1) 180%);
+    /*background: linear-gradient(to bottom,transparent 0,#000 200%);*/
+  }
+  .ip-list-item-name text{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
   }
   .ip-list-item image{
     width: 100%;
+  }
+  .tabPanelPolicy{
+    padding-bottom: 20px;
+    background: #fff;
   }
 </style>

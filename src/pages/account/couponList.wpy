@@ -94,89 +94,85 @@
 </script>
 
 <style>
-  .orderList{
-    
-  }
   .orderList-tab{
     display: flex;
-    margin-bottom: 20rpx;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
     background: #fff;
   }
   .ol-tab-item{
     flex: 1;
     text-align: center;
-    color: #999;
+    font-size: 14px;
+    color: #353535;
   }
   .ol-tab-item text{
     display: inline-block;
-    line-height: 80rpx;
+    line-height: 40px;
   }
   .orderList-tab .selected{
     color: #f30;
   }
   .orderList-tab .selected text{
-    border-bottom: 1px solid #f30;
+    border-bottom: 2px solid #f30;
   }
   .cl-panel-item{
     display: flex;
     align-items: center;
-    margin: 0 20rpx 20rpx;
-    
-    background: #fff;
-    font-size: 24rpx;
+    margin: 0 10px 10px;
+    font-size: 12px;
     overflow: hidden;
+  }
+  .coupon-desc-name{
+    color: #353535;
   }
   .coupon-name{
     position: relative;
+    height: 72px;
     flex: 1;
-    padding: 30rpx 0;
-    border: 1px solid #e5e5e5;
-    border-right: 1px dashed #e5e5e5;
+    box-sizing: border-box;
+    padding: 15px 0;
+    border: 1px solid #eee;
+    border-right: 1px dashed #eee;
     border-radius: 10px;
     text-align: center;
     color: #f30;
-  }
-  .coupon-name::before{
-    content: "";
-    position: absolute;
-    top: -15rpx;
-    right: -15rpx;
-    width: 30rpx;
-    height: 30rpx;
-    background: #f9f9f9;
-    border-radius: 50%;
+    background: #fff;
   }
   .coupon-name text{
-    font-size: 56rpx;
+    font-size: 26px;
   }
   .coupon-detail{
     display: flex;
+    height: 72px;
     align-items: center;
-    padding: 30rpx 20rpx;
+    box-sizing: border-box;
+    padding: 15px 10px;
     flex: 3;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #eee;
     border-left: none;
     border-radius: 10px;
+    background: #fff;
   }
   .coupon-desc{
     flex: 1;
-    line-height: 40rpx;
+    line-height: 20px;
   }
   .coupon-desc-date{
-    color: #999;
+    color: #888;
   }
   .coupon-button{
-    padding: 0 20rpx;
+    padding: 0 10px;
     border: 1px solid #f30;
     border-radius: 3px;
     color: #f30;
-    line-height: 52rpx;
+    line-height: 26px;
   }
   .lose .coupon-name{
-    color: #999;
+    color: #888;
   }
   .lose .coupon-button{
-    color: #999;
-    border-color: #999;
+    color: #888;
+    border-color: #888;
   }
 </style>

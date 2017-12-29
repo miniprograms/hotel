@@ -1,0 +1,105 @@
+<template>
+  <view class="Mask" wx:if="{{ popUpStatus }}" @tap="priceDetailClose"></view>
+  <view class="pricePopup" wx:if="{{ popUpStatus }}">
+    <view class="pop-pirce-title">会员价格</view>
+    <view class="pop-price-list">
+      <view class="pop-price-item" wx:for="{{ priceDetail }}" wx:for-item="prices">
+        <view class="pop-vipLevel-name level-{{ prices.level }}">{{ prices.name }}</view>
+        <view class="pop-vipLevel-price">¥{{ prices.price }}<text class="pop-price-tips">({{ prices.discount }})</text></view>
+      </view>
+    </view>
+    <view class="pop-price-button" @tap="priceDetailClose">我知道了</view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class pricePopup extends wepy.component {
+    data = {
+      popUpStatus: false,
+      priceDetail: {}
+    }
+    methods = {
+      priceDetail: function(data) {
+        console.log('detail page emit')
+        this.popUpStatus = true
+        this.priceDetail = data
+      },
+      priceDetailClose: function() {
+        this.popUpStatus = false
+      }
+    }
+  }
+</script>
+
+<style>
+ .pricePopup{
+  position: fixed;
+  top: 50%;
+  right: 10%;
+  left: 10%;
+  transform: translateY(-50%);
+  z-index: 100;
+  padding: 0 24px 24px;
+  background: #fff;
+  border-radius: 10px;
+}
+.pop-pirce-title{
+  padding: 24px 0;
+  text-align: center;
+}
+.pop-price-list{
+  padding-bottom: 8px;
+}
+.pop-price-item{
+  display: flex;
+  margin-bottom: 16px;
+  line-height: 24px;
+  font-size: 14px;
+}
+.pop-vipLevel-name{
+  flex: 1;
+  color: #353535;
+}
+.pop-price-tips{
+  font-size: 12px;
+  color: #888;
+}
+.pop-vipLevel-price{
+  color: #f30;
+}
+.pop-price-button{
+  font-size: 14px;
+  color: #fff;
+  line-height: 36px;
+  text-align: center;
+  background: #ffa019;
+}
+.level-0::before,.level-1::before,.level-2::before,.level-3::before{
+  display: inline-block;
+  width: 18px;
+  margin-right: 4px;
+  line-height: 18px;
+  border-radius: 50%;
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+}
+.level-0::before{
+  content: "普";
+  background: #a8abad;
+}
+.level-1::before{
+  content: "银";
+  background: #4dcd90;
+}
+.level-2::before{
+  content: "金";
+  background: #ffa019;
+}
+.level-3::before{
+  content: "钻";
+  background: #9382fa;
+}
+</style>

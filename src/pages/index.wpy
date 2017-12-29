@@ -23,6 +23,38 @@
   .userinfo-nickname {
     color: #aaa;
   }
+  .yhj-image{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+  }
+  .yhj-close{
+    position: absolute;
+    left: 50%;
+    top: -30px;
+    width: 1px;
+    height: 30px;
+    transform: translateX(-50%);
+    background: #fff;
+  }
+  .yhj-close text{
+    position: absolute;
+    top: -19px;
+    left: -9px;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 18px;
+  }
+  .yhj-close text::before{
+    content: "\e871";
+    font-size: 14px;
+    color: #fff;
+  }
 </style>
 <template lang="wxml">
   <view class="container {{ scrollHidden ? 'scrollHidden' : '' }}">
@@ -32,6 +64,14 @@
     <chooseDate :date.sync="chooseDate"></chooseDate>
     <goodsList :goods.sync="goods"></goodsList>
     <goodsDetail :goodsDetailData.sync="goodsDetail"></goodsDetail>
+
+    <view class="yhj" wx:if="{{ yhj }}" @tap="yhjCLose">
+      <view class="Mask"></view>
+      <view class="yhj-image">
+        <view class="yhj-close"><text class="iconFont"></text></view>
+        <image mode="widthFix" src="https://s1.ax1x.com/2017/12/26/vXz0e.png" style="width: 198px; height: 199px;"></image>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -42,7 +82,7 @@
   import sTag from '../components/sTag'
   import coupon from '../components/coupon'
   import chooseDate from '../components/chooseDate'
-  import goodsList from '../components/goodsList'
+  import goodsList from '../components/goodsList-v2'
   import goodsDetail from '../components/goodsDetail'
 
   export default class Index extends wepy.page {
@@ -59,6 +99,7 @@
 
     data = {
       scrollHidden: false,
+      yhj: true,
       banner: {
         banners: [
           {
@@ -101,73 +142,16 @@
         desc: '享订房88折等五大特权',
         status: true
       },
-      goods: [
-        {
-          id: 0,
-          status: 1,
-          imgUrl: 'https://dimg12.c-ctrip.com/images/200n0h000000903n2A137_R_550_412.jpg',
-          name: '主题大床房',
-          roomService: ['大床1.5米', '有窗', '6层'],
-          rooms: [
-            {
-              id: 'goods1001',
-              name: '非会员价',
-              price: '269'
-            },
-            {
-              id: 'goods2001',
-              name: '白金会员价',
-              price: '249'
-            }
-          ]
-        },
-        {
-          id: 1,
-          status: 1,
-          imgUrl: 'https://dimg12.c-ctrip.com/images/200q0g0000007rdve154B_R_550_412.jpg',
-          name: '3D电影房',
-          roomService: ['大床1.5米', '有窗', '6层'],
-          rooms: [
-            {
-              id: 'goods1001',
-              name: '非会员价',
-              price: '269'
-            },
-            {
-              id: 'goods2001',
-              name: '白金会员价',
-              price: '249'
-            }
-          ]
-        },
-        {
-          id: 2,
-          status: 0,
-          imgUrl: 'https://dimg12.c-ctrip.com/images/20080h0000009026n4EB8_R_550_412.jpg',
-          name: '总统套房',
-          roomService: ['大床3.5米', '有窗', '2层'],
-          rooms: [
-            {
-              id: 'goods1001',
-              name: '非会员价',
-              price: '289'
-            },
-            {
-              id: 'goods2001',
-              name: '白金会员价',
-              price: '219'
-            }
-          ]
-        }
-      ],
       chooseDate: {
-        inDate: getCurrentDate(),
-        outDate: getCurrentDate(2),
-        numDate: 2
+        indate: {},
+        outdate: {}
       }
     }
 
     methods = {
+      yhjCLose: function() {
+        this.yhj = false
+      }
     }
     events = {
       scrollHidden: function(state) {
@@ -175,7 +159,9 @@
         this.scrollHidden = Boolean(state)
       }
     }
-    onLoad() {
+    onShow() {
+      console.log(this)
+      this.$invoke('chooseDate', 'settingDate', {})
     }
   }
 </script>
